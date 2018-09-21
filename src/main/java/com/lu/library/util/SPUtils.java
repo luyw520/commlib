@@ -17,7 +17,9 @@ public class SPUtils {
      */
     private static final String FILE_NAME = "very_fit_pro";
 
+    public static void init(Context context){
 
+    };
     /**
      * @param context
      * @param key

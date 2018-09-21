@@ -1,20 +1,15 @@
 package com.lu.library.util;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
-import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 
-import com.id.app.comm.lib.IdoApp;
+import com.lu.library.LibContext;
 
 import java.io.File;
 
@@ -184,33 +179,6 @@ public class PhoneInfoUtil {
         }
     }
 
-    /**
-     * 是否打开GPS
-     *
-     * @return
-     */
-    public static boolean isGPSOpen() {
-
-        LocationManager locationManager = ((LocationManager) IdoApp.getAppContext().getSystemService(Context.LOCATION_SERVICE));
-        return  locationManager != null && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-    }
-
-    public static boolean isBluetoothOpen(){
-        return BluetoothAdapter.getDefaultAdapter().isEnabled();
-    }
-
-    public static boolean hasBluetoothPermission(){
-        return ActivityCompat.checkSelfPermission(IdoApp.getAppContext(), Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public static boolean hasBluetoothAdminPermission(){
-        return ActivityCompat.checkSelfPermission(IdoApp.getAppContext(), Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public static boolean hasLocationPermission(){
-        return ActivityCompat.checkSelfPermission(IdoApp.getAppContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-    }
 
     /**
      * 获取当前系统语言
@@ -218,7 +186,7 @@ public class PhoneInfoUtil {
      * @return
      */
     public static String getLanguage() {
-        return IdoApp.getAppContext().getResources().getConfiguration().locale.getLanguage();
+        return LibContext.getAppContext().getResources().getConfiguration().locale.getLanguage();
     }
 
     /**

@@ -1,18 +1,24 @@
 package com.lu.library.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Surface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.lu.library.R;
 
 import java.lang.reflect.Method;
 
@@ -30,7 +36,60 @@ public class ScreenUtils {
     private ScreenUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
+    // 获取指定Activity的截屏，保存到png文件
+    public static Bitmap takeScreenShot(Activity activity) {
 
+        // View是你需要截图的View
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap b1 = view.getDrawingCache();
+
+        // 获取状态栏高度
+        Rect frame = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        int statusBarHeight = frame.top;
+        System.out.println(statusBarHeight);
+
+        // 获取屏幕长和高
+        int width = activity.getWindowManager().getDefaultDisplay().getWidth();
+        int height = activity.getWindowManager().getDefaultDisplay()
+                .getHeight();
+
+        String brand = android.os.Build.BRAND;//获得手机品牌
+        Bitmap b = null;
+        //如果屏幕大于900*500则取900*500，否则按照屏幕大小截图
+        if (width>500&&height<900){
+            width=500;
+            height=900;
+        }
+        if (brand.equals("Meizu")) {
+//            b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - 5 * statusBarHeight
+//            );
+            b = Bitmap.createBitmap(b1, 0, 0, width, height);
+
+        } else {
+
+            // 去掉标题栏
+            b = Bitmap.createBitmap(b1, 0, 0, width, height);
+//            b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height
+//                    - statusBarHeight);
+        }
+
+        view.destroyDrawingCache();
+        return b;
+    }
+    /**
+     * 截图全屏
+     */
+    public static Bitmap getTotleScreenShot(final ViewGroup viewContainer,View... views) {
+        int width = viewContainer.getWidth();
+        int h = viewContainer.getChildAt(0).getHeight();
+        final Bitmap screenBitmap = Bitmap.createBitmap(width, h, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(screenBitmap);
+        viewContainer.getChildAt(0).draw(canvas);
+        return screenBitmap;
+    }
     /**
      * 获取屏幕的宽度px
      *
@@ -261,7 +320,40 @@ public class ScreenUtils {
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+    /**
+     * 设置通用的沉浸式状态栏【带CommonTitle标题栏的Activity】
+     *
+     * @param activity
+     */
+    public static void setNavigationBar(Activity activity) {
+        ViewGroup parentView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);//拿到第一层的content
+        if (parentView.getChildAt(0) instanceof ViewGroup) {
 
+            ViewGroup childView = (ViewGroup) parentView.getChildAt(0);//第二层布局layout
+            childView.setFitsSystemWindows(true);
+            childView.setClipToPadding(true);
+            ViewGroup.LayoutParams layoutParams = childView.getLayoutParams();
+            layoutParams.height=(int) (getStatusBarHeight(activity) + activity.getResources().getDimension(R.dimen.common_tittle_height));
+            childView.setLayoutParams(layoutParams);
+        }
+    }
+    /**
+     * 设置通用的沉浸式状态栏【带CommonTitle标题栏的Activity】
+     *
+     * @param activity
+     */
+    public static void setNavigationBar(Activity activity,int viewId) {
+        ViewGroup parentView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);//拿到第一层的content
+
+        ViewGroup childView = parentView.findViewById(viewId);//第二层布局layout
+//        if (parentView.getChildAt(0) instanceof ViewGroup) {
+        childView.setFitsSystemWindows(true);
+        childView.setClipToPadding(true);
+        ViewGroup.LayoutParams layoutParams = childView.getLayoutParams();
+        layoutParams.height=(int) (getStatusBarHeight(activity) + activity.getResources().getDimension(R.dimen.common_tittle_height));
+        childView.setLayoutParams(layoutParams);
+//        }
+    }
     /**
      * 获取状态栏高度
      *
@@ -335,7 +427,7 @@ public class ScreenUtils {
      */
     private static void invokePanels(Context context, String methodName) {
         try {
-            Object service = context.getSystemService("statusbar");
+            @SuppressLint("WrongConstant") Object service = context.getSystemService("statusbar");
             Class<?> statusBarManager = Class.forName("android.app.StatusBarManager");
             Method expand = statusBarManager.getMethod(methodName);
             expand.invoke(service);
