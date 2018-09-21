@@ -23,13 +23,14 @@ public class LibContext {
         return libContext;
     }
     public static Context getAppContext(){
-        return null;
+        return libContext.context;
     }
     public void init(Context context){
         this.context=context.getApplicationContext();
         BlockDetectByPrinter.start();
         initFacebook();
         init7_0_Camera();
+        initCrashHandler();
     }
     /**
      * 初始化捕获日志辅助类
