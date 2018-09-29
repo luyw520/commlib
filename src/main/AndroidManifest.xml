@@ -3,4 +3,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <application>
+        <activity android:name=".photo.ImageFactoryActivity"/>
+    </application>
 </manifest>

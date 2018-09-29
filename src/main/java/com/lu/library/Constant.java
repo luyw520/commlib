@@ -29,4 +29,21 @@ public interface Constant {
 
 
     String SHARE_SDK_API_KEY="";
+
+
+    int REQUEST_CODE_PHOTO_NONE=-1;
+    /**
+     * 跳转选择相册的code
+     */
+    int REQUEST_CODE_PHOTO_PICK=2;
+    /**
+     * 跳转拍照界面的code
+     */
+    int REQUEST_CODE_PHOTO_CAMERA=1;
+    /**
+     * 跳转裁剪图片的code
+     */
+    int REQUEST_CODE_PHOTO_RESOULT=3;
+    int REQUEST_CODE_PHOTO_CROP=4;
+    int PERMISSIONS_REQUEST_CODE_PHOTO_CAMERA=100;
 }

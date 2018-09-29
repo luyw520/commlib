@@ -6,4 +6,8 @@
     <color name="black">@android:color/black</color>
     <color name="transparent">@android:color/transparent</color>
 
+
+    <color name="photo_text_color">#333333</color>
+
+    <color name="item_text_color">#B1B1B1</color>
 </resources>
