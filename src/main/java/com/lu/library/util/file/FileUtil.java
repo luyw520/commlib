@@ -2,9 +2,9 @@ package com.lu.library.util.file;
 
 
 import com.lu.library.Constant;
-import com.lu.library.util.string.ConvertUtils;
-import com.lu.library.util.string.EncryptUtils;
-import com.lu.library.util.string.StringUtils;
+import com.lu.library.util.string.ConvertUtil;
+import com.lu.library.util.string.EncryptUtil;
+import com.lu.library.util.string.StringUtil;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -28,9 +28,9 @@ import java.util.List;
 
 /**
  */
-public class FileUtils {
+public class FileUtil {
 
-    private FileUtils() {
+    private FileUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -41,7 +41,7 @@ public class FileUtils {
      * @return 文件
      */
     public static File getFileByPath(String filePath) {
-        return StringUtils.isSpace(filePath) ? null : new File(filePath);
+        return StringUtil.isSpace(filePath) ? null : new File(filePath);
     }
 
     /**
@@ -750,7 +750,7 @@ public class FileUtils {
         BufferedReader reader = null;
         try {
             StringBuilder sb = new StringBuilder();
-            if (StringUtils.isSpace(charsetName)) {
+            if (StringUtil.isSpace(charsetName)) {
                 reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             } else {
                 reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charsetName));
@@ -821,7 +821,7 @@ public class FileUtils {
             String line;
             int curLine = 1;
             List<String> list = new ArrayList<>();
-            if (StringUtils.isSpace(charsetName)) {
+            if (StringUtil.isSpace(charsetName)) {
                 reader = new BufferedReader(new FileReader(file));
             } else {
                 reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charsetName));
@@ -861,7 +861,7 @@ public class FileUtils {
     public static byte[] readFile2Bytes(File file) {
         if (file == null) return null;
         try {
-            return ConvertUtils.inputStream2Bytes(new FileInputStream(file));
+            return ConvertUtil.inputStream2Bytes(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -962,7 +962,7 @@ public class FileUtils {
      */
     public static String getFileSize(File file) {
         if (!isFileExists(file)) return "";
-        return ConvertUtils.byte2FitSize(file.length());
+        return ConvertUtil.byte2FitSize(file.length());
     }
 
     /**
@@ -982,7 +982,7 @@ public class FileUtils {
      * @return 文件的MD5校验码
      */
     public static String getFileMD5(File file) {
-        return EncryptUtils.encryptMD5File2String(file);
+        return EncryptUtil.encryptMD5File2String(file);
     }
 
     /**
@@ -1021,7 +1021,7 @@ public class FileUtils {
      * @return filePath最长目录
      */
     public static String getDirName(String filePath) {
-        if (StringUtils.isSpace(filePath)) return filePath;
+        if (StringUtil.isSpace(filePath)) return filePath;
         int lastSep = filePath.lastIndexOf(File.separator);
         return lastSep == -1 ? "" : filePath.substring(0, lastSep + 1);
     }
@@ -1044,7 +1044,7 @@ public class FileUtils {
      * @return 文件名
      */
     public static String getFileName(String filePath) {
-        if (StringUtils.isSpace(filePath)) return filePath;
+        if (StringUtil.isSpace(filePath)) return filePath;
         int lastSep = filePath.lastIndexOf(File.separator);
         return lastSep == -1 ? filePath : filePath.substring(lastSep + 1);
     }
@@ -1067,7 +1067,7 @@ public class FileUtils {
      * @return 不带拓展名的文件名
      */
     public static String getFileNameNoExtension(String filePath) {
-        if (StringUtils.isSpace(filePath)) return filePath;
+        if (StringUtil.isSpace(filePath)) return filePath;
         int lastPoi = filePath.lastIndexOf('.');
         int lastSep = filePath.lastIndexOf(File.separator);
         if (lastSep == -1) {
@@ -1097,7 +1097,7 @@ public class FileUtils {
      * @return 文件拓展名
      */
     public static String getFileExtension(String filePath) {
-        if (StringUtils.isSpace(filePath)) return filePath;
+        if (StringUtil.isSpace(filePath)) return filePath;
         int lastPoi = filePath.lastIndexOf('.');
         int lastSep = filePath.lastIndexOf(File.separator);
         if (lastPoi == -1 || lastSep >= lastPoi) return "";

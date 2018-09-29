@@ -32,7 +32,7 @@ import java.lang.reflect.Method;
  *
  */
 
-public class NotificationsUtils {
+public class NotificationsUtil {
    private static final String CHECK_OP_NO_THROW = "checkOpNoThrow";
    private static final String OP_POST_NOTIFICATION = "OP_POST_NOTIFICATION";
 

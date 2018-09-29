@@ -6,7 +6,7 @@ import android.os.Environment;
 import android.os.StatFs;
 
 
-import com.lu.library.util.string.ConvertUtils;
+import com.lu.library.util.string.ConvertUtil;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -18,9 +18,9 @@ import java.io.InputStreamReader;
  *     desc  : SD卡相关工具类
  * </pre>
  */
-public class SDCardUtils {
+public class SDCardUtil {
 
-    private SDCardUtils() {
+    private SDCardUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -82,7 +82,7 @@ public class SDCardUtils {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            FileUtils.closeIO(bufferedReader);
+            FileUtil.closeIO(bufferedReader);
         }
         return Environment.getExternalStorageDirectory().getPath() + File.separator;
     }
@@ -99,7 +99,7 @@ public class SDCardUtils {
         long blockSize, availableBlocks;
         availableBlocks = stat.getAvailableBlocksLong();
         blockSize = stat.getBlockSizeLong();
-        return ConvertUtils.byte2FitSize(availableBlocks * blockSize);
+        return ConvertUtil.byte2FitSize(availableBlocks * blockSize);
     }
 
     /**

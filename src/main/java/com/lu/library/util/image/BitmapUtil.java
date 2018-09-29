@@ -6,8 +6,8 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.lu.library.util.file.FileUtils;
-import com.lu.library.util.string.ConvertUtils;
+import com.lu.library.util.file.FileUtil;
+import com.lu.library.util.string.ConvertUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -23,9 +23,9 @@ import java.io.OutputStream;
  *     desc  : Bitmap相关工具类
  * </pre>
  */
-public class BitmapUtils {
+public class BitmapUtil {
 
-    private BitmapUtils() {
+    private BitmapUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -47,7 +47,7 @@ public class BitmapUtils {
      * @return 字节数组
      */
     public static byte[] bitmap2Bytes(Bitmap bitmap, CompressFormat format) {
-        return ConvertUtils.bitmap2Bytes(bitmap, format);
+        return ConvertUtil.bitmap2Bytes(bitmap, format);
     }
 
     /**
@@ -57,7 +57,7 @@ public class BitmapUtils {
      * @return bitmap
      */
     public static Bitmap bytes2Bitmap(byte[] bytes) {
-        return ConvertUtils.bytes2Bitmap(bytes);
+        return ConvertUtil.bytes2Bitmap(bytes);
     }
 
     /**
@@ -67,7 +67,7 @@ public class BitmapUtils {
      * @return bitmap
      */
     public static Bitmap drawable2Bitmap(Drawable drawable) {
-        return ConvertUtils.drawable2Bitmap(drawable);
+        return ConvertUtil.drawable2Bitmap(drawable);
     }
 
     /**
@@ -78,7 +78,7 @@ public class BitmapUtils {
      * @return drawable
      */
     public static Drawable bitmap2Drawable(Resources res, Bitmap bitmap) {
-        return ConvertUtils.bitmap2Drawable(res, bitmap);
+        return ConvertUtil.bitmap2Drawable(res, bitmap);
     }
 
     /**
@@ -89,7 +89,7 @@ public class BitmapUtils {
      * @return 字节数组
      */
     public static byte[] drawable2Bytes(Drawable drawable, CompressFormat format) {
-        return ConvertUtils.drawable2Bytes(drawable, format);
+        return ConvertUtil.drawable2Bytes(drawable, format);
     }
 
     /**
@@ -100,7 +100,7 @@ public class BitmapUtils {
      * @return drawable
      */
     public static Drawable bytes2Drawable(Resources res, byte[] bytes) {
-        return ConvertUtils.bytes2Drawable(res, bytes);
+        return ConvertUtil.bytes2Drawable(res, bytes);
     }
 
     /**
@@ -110,7 +110,7 @@ public class BitmapUtils {
      * @return bitmap
      */
     public static Bitmap view2Bitmap(View view) {
-        return ConvertUtils.view2Bitmap(view);
+        return ConvertUtil.view2Bitmap(view);
     }
     /** Bitmap 保存到sdcard
      *
@@ -156,7 +156,7 @@ public class BitmapUtils {
      * @return {@code true}: 成功<br>{@code false}: 失败
      */
     public static boolean save(Bitmap src, String filePath, CompressFormat format,int quality) {
-        return save(src, FileUtils.getFileByPath(filePath), format, quality,false);
+        return save(src, FileUtil.getFileByPath(filePath), format, quality,false);
     }
 
     /**
@@ -181,7 +181,7 @@ public class BitmapUtils {
      * @return {@code true}: 成功<br>{@code false}: 失败
      */
     public static boolean save(Bitmap src, String filePath, CompressFormat format,int quality, boolean recycle) {
-        return save(src, FileUtils.getFileByPath(filePath), format,quality, recycle);
+        return save(src, FileUtil.getFileByPath(filePath), format,quality, recycle);
     }
 
     /**
@@ -194,7 +194,7 @@ public class BitmapUtils {
      * @return {@code true}: 成功<br>{@code false}: 失败
      */
     public static boolean save(Bitmap src, File file, CompressFormat format,int quality, boolean recycle) {
-        if (isEmptyBitmap(src) || !FileUtils.createOrExistsFile(file)) return false;
+        if (isEmptyBitmap(src) || !FileUtil.createOrExistsFile(file)) return false;
         if (format==null){
             format=Bitmap.CompressFormat.PNG;
         }
@@ -207,7 +207,7 @@ public class BitmapUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            FileUtils.closeIO(os);
+            FileUtil.closeIO(os);
         }
         return ret;
     }
@@ -242,7 +242,7 @@ public class BitmapUtils {
      * @return 图片类型
      */
     public static String getImageType(String filePath) {
-        return getImageType(FileUtils.getFileByPath(filePath));
+        return getImageType(FileUtil.getFileByPath(filePath));
     }
 
     /**
@@ -261,7 +261,7 @@ public class BitmapUtils {
             e.printStackTrace();
             return null;
         } finally {
-            FileUtils.closeIO(is);
+            FileUtil.closeIO(is);
         }
     }
 

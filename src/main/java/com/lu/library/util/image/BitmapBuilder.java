@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.lu.library.util.string.StringUtils;
+import com.lu.library.util.string.StringUtil;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -58,7 +58,7 @@ public class BitmapBuilder {
      * @return bitmap
      */
     public static Bitmap getBitmap(String filePath) {
-        if (StringUtils.isSpace(filePath)) return null;
+        if (StringUtil.isSpace(filePath)) return null;
         return BitmapFactory.decodeFile(filePath);
     }
 
@@ -99,7 +99,7 @@ public class BitmapBuilder {
      * @return bitmap
      */
     public static Bitmap getBitmap(String filePath, int maxWidth, int maxHeight) {
-        if (StringUtils.isSpace(filePath)) return null;
+        if (StringUtil.isSpace(filePath)) return null;
         return getBitmap(new File(filePath), maxWidth,maxHeight);
     }
     /**

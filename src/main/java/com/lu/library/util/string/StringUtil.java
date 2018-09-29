@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.Random;
 
-public class StringUtils {
+public class StringUtil {
 
 
 	public static void formatNumber(double d) {

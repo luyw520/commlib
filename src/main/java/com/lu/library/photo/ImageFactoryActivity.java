@@ -17,7 +17,7 @@ import com.lu.library.base.BaseActivity;
 import com.lu.library.util.AsyncTaskUtil;
 import com.lu.library.log.DebugLog;
 import com.lu.library.util.image.BitmapBuilder;
-import com.lu.library.util.image.BitmapUtils;
+import com.lu.library.util.image.BitmapUtil;
 import com.lu.library.widget.CommonTitleBarHelper;
 import com.lu.library.widget.clip.ClipImageLayout;
 
@@ -165,7 +165,7 @@ public class ImageFactoryActivity extends BaseActivity {
 				public Object doInBackground(String... arg0) {
 					Bitmap bitmap=cropImageView.clip();
 					File file = new File(Constant.PIC_PATH + photoPath);
-					BitmapUtils.save(bitmap, file.getAbsolutePath());
+					BitmapUtil.save(bitmap, file.getAbsolutePath());
 					return null;
 				}
 

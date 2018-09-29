@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * SharedPreferences 数据存储辅助类
  */
-public class SPUtils {
+public class SPUtil {
 
 
     /**

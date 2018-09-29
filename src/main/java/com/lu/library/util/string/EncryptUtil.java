@@ -1,7 +1,7 @@
 package com.lu.library.util.string;
 
 
-import com.lu.library.util.file.FileUtils;
+import com.lu.library.util.file.FileUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,9 +21,9 @@ import javax.crypto.spec.SecretKeySpec;
  *     desc  : 加密解密相关的工具类
  * </pre>
  */
-public class EncryptUtils {
+public class EncryptUtil {
 
-    private EncryptUtils() {
+    private EncryptUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -179,7 +179,7 @@ public class EncryptUtils {
         } catch (NoSuchAlgorithmException | IOException e) {
             e.printStackTrace();
         } finally {
-            FileUtils.closeIO(fis);
+            FileUtil.closeIO(fis);
         }
         return null;
     }
@@ -391,7 +391,7 @@ public class EncryptUtils {
      * @return Base64密文
      */
     public static byte[] encryptDES2Base64(byte[] data, byte[] key) {
-        return EncodeUtils.base64Encode(encryptDES(data, key));
+        return EncodeUtil.base64Encode(encryptDES(data, key));
     }
 
     /**
@@ -424,7 +424,7 @@ public class EncryptUtils {
      * @return 明文
      */
     public static byte[] decryptBase64DES(byte[] data, byte[] key) {
-        return decryptDES(EncodeUtils.base64Decode(data), key);
+        return decryptDES(EncodeUtil.base64Decode(data), key);
     }
 
     /**
@@ -495,7 +495,7 @@ public class EncryptUtils {
      * @return Base64密文
      */
     public static byte[] encrypt3DES2Base64(byte[] data, byte[] key) {
-        return EncodeUtils.base64Encode(encrypt3DES(data, key));
+        return EncodeUtil.base64Encode(encrypt3DES(data, key));
     }
 
     /**
@@ -528,7 +528,7 @@ public class EncryptUtils {
      * @return 明文
      */
     public static byte[] decryptBase64_3DES(byte[] data, byte[] key) {
-        return decrypt3DES(EncodeUtils.base64Decode(data), key);
+        return decrypt3DES(EncodeUtil.base64Decode(data), key);
     }
 
     /**
@@ -572,7 +572,7 @@ public class EncryptUtils {
      * @return Base64密文
      */
     public static byte[] encryptAES2Base64(byte[] data, byte[] key) {
-        return EncodeUtils.base64Encode(encryptAES(data, key));
+        return EncodeUtil.base64Encode(encryptAES(data, key));
     }
 
     /**
@@ -605,7 +605,7 @@ public class EncryptUtils {
      * @return 明文
      */
     public static byte[] decryptBase64AES(byte[] data, byte[] key) {
-        return decryptAES(EncodeUtils.base64Decode(data), key);
+        return decryptAES(EncodeUtil.base64Decode(data), key);
     }
 
     /**

@@ -11,7 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.lu.library.Constant;
-import com.lu.library.util.file.FileUtils;
+import com.lu.library.util.file.FileUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,7 +27,7 @@ import java.util.Locale;
  *     desc  : 转换相关工具类
  * </pre>
  */
-public class ConvertUtils {
+public class ConvertUtil {
     /**
      * Byte与Byte的倍数
      */
@@ -45,7 +45,7 @@ public class ConvertUtils {
      */
     public static final int GB = 1073741824;
 
-    private ConvertUtils() {
+    private ConvertUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -220,7 +220,7 @@ public class ConvertUtils {
             e.printStackTrace();
             return null;
         } finally {
-            FileUtils.closeIO(is);
+            FileUtil.closeIO(is);
         }
     }
 
@@ -282,7 +282,7 @@ public class ConvertUtils {
             e.printStackTrace();
             return null;
         } finally {
-            FileUtils.closeIO(os);
+            FileUtil.closeIO(os);
         }
     }
 
@@ -294,7 +294,7 @@ public class ConvertUtils {
      * @return 字符串
      */
     public static String inputStream2String(InputStream is, String charsetName) {
-        if (is == null || StringUtils.isSpace(charsetName)) return null;
+        if (is == null || StringUtil.isSpace(charsetName)) return null;
         try {
             return new String(inputStream2Bytes(is), charsetName);
         } catch (UnsupportedEncodingException e) {
@@ -311,7 +311,7 @@ public class ConvertUtils {
      * @return 输入流
      */
     public static InputStream string2InputStream(String string, String charsetName) {
-        if (string == null || StringUtils.isSpace(charsetName)) return null;
+        if (string == null || StringUtil.isSpace(charsetName)) return null;
         try {
             return new ByteArrayInputStream(string.getBytes(charsetName));
         } catch (UnsupportedEncodingException e) {
@@ -345,7 +345,7 @@ public class ConvertUtils {
      * @return 输入流
      */
     public static OutputStream string2OutputStream(String string, String charsetName) {
-        if (string == null || StringUtils.isSpace(charsetName)) return null;
+        if (string == null || StringUtil.isSpace(charsetName)) return null;
         try {
             return bytes2OutputStream(string.getBytes(charsetName));
         } catch (UnsupportedEncodingException e) {

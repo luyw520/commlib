@@ -29,7 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static android.os.Build.VERSION.SDK_INT;
-import static com.lu.library.util.image.BitmapUtils.isEmptyBitmap;
+import static com.lu.library.util.image.BitmapUtil.isEmptyBitmap;
 
 /**
  * Created by lyw.

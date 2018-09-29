@@ -16,7 +16,7 @@ import java.lang.reflect.Proxy;
  *
  * @author: lyw
  * @package: com.ido.veryfitpro.util
- * @description: ${TODO}{ 类注释}
+ * @description: ${TODO}{ 反射设置点击事件时间间隔500ms}
  * @date: 2018/8/16 0016
  */
 public class HookClickListenerHelper {

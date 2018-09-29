@@ -20,7 +20,7 @@ import java.util.UUID;
  * @date: 2018/6/22 0022
  */
 
-public class PhotoUtils {
+public class PhotoUtil {
 
     private static final String IMAGE_PATH = "";
 

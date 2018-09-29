@@ -10,9 +10,9 @@ import android.util.Log;
 import com.lu.library.LibContext;
 
 
-public class NetUtils {
+public class NetUtil {
 
-    private NetUtils() {
+    private NetUtil() {
         /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");
     }

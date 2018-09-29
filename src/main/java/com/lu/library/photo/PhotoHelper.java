@@ -18,7 +18,7 @@ import android.view.View;
 import com.lu.library.Constant;
 import com.lu.library.R;
 import com.lu.library.util.AsyncTaskUtil;
-import com.lu.library.util.image.BitmapUtils;
+import com.lu.library.util.image.BitmapUtil;
 
 import java.io.File;
 
@@ -124,7 +124,7 @@ public class PhotoHelper {
             @Override
             public Object doInBackground(String... arg0) {
                 File file = new File(Constant.PIC_PATH + photoPath);
-                BitmapUtils.save(photo,file.getAbsolutePath());
+                BitmapUtil.save(photo,file.getAbsolutePath());
                 if (file.exists()) {
                     File old =tempPhoto;
                     if (old.exists()) {

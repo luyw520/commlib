@@ -10,10 +10,10 @@ import android.view.Window;
 import android.widget.EditText;
 
 import com.lu.library.util.EventBusHelper;
-import com.lu.library.util.NetUtils;
+import com.lu.library.util.NetUtil;
 import com.lu.library.util.ObjectUtil;
 import com.lu.library.util.PermissionUtil;
-import com.lu.library.util.ScreenUtils;
+import com.lu.library.util.ScreenUtil;
 import com.lu.library.util.ToastUtil;
 import com.lu.library.widget.CommonTitleBarHelper;
 
@@ -91,7 +91,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      * 这个方法只适用于使用公共标题的情况下，个人情况下需要重新该方法
      */
     protected void setNavigationBar() {
-        ScreenUtils.setNavigationBar(this);
+        ScreenUtil.setNavigationBar(this);
     }
     @Subscribe(threadMode=ThreadMode.MAIN)
     public void handleMessageInner(BaseMessage message){
@@ -224,7 +224,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
 
     protected boolean isNetWorkAndToast() {
-        if (!NetUtils.isConnected(this)) {
+        if (!NetUtil.isConnected(this)) {
 //            showToast((R.string.no_network));
             return false;
         }

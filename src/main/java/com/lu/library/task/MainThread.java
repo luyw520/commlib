@@ -1,9 +1,9 @@
-package com.lu.library.util;
+package com.lu.library.task;
 
 import android.os.Handler;
 import android.os.Looper;
 
-public class ThreadUtil {
+public class MainThread {
 
 
 

@@ -26,9 +26,9 @@ import java.lang.reflect.Method;
 /**
  *  屏幕相关工具类
  */
-public class ScreenUtils {
+public class ScreenUtil {
 
-    private ScreenUtils() {
+    private ScreenUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
     // 获取指定Activity的截屏，保存到png文件
