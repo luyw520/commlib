@@ -1,7 +1,7 @@
 package com.lu.library.util.file;
 
 
-import com.lu.library.util.ConstantUtil;
+import com.lu.library.Constant;
 import com.lu.library.util.string.ConvertUtils;
 import com.lu.library.util.string.EncryptUtils;
 import com.lu.library.util.string.StringUtils;
@@ -9,6 +9,7 @@ import com.lu.library.util.string.StringUtils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -259,7 +260,7 @@ public class FileUtils {
         // 目标目录不存在返回false
         if (!createOrExistsDir(destFile.getParentFile())) return false;
         try {
-            return writeFileFromIS(destFile, new FileInputStream(srcFile), false)
+            return write(destFile, new FileInputStream(srcFile), false)
                     && !(isMove && !deleteFile(srcFile));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -634,7 +635,40 @@ public class FileUtils {
         }
         return list;
     }
-
+    /*-------------------------------------------------写入数据到文件----------------------------------**/
+    /**
+     * 将字符串写入文件
+     *
+     * @param filePath 文件路径
+     * @param data  写入内容
+     * @return {@code true}: 写入成功<br>{@code false}: 写入失败
+     */
+    public static boolean write(String filePath, String data) {
+        return write(filePath,data,true);
+    }
+    /**
+     * 将字符串写入文件
+     *
+     * @param filePath 文件路径
+     * @param data  写入内容
+     * @param append   是否追加在文件末
+     * @return {@code true}: 写入成功<br>{@code false}: 写入失败
+     */
+    public static boolean write(String filePath, String data,boolean append){
+        BufferedWriter out = null;
+        try {
+            if (!isFileExists(filePath)) return false;
+            out = new BufferedWriter(new FileWriter(filePath, append));
+            out.write(data);
+            out.newLine();
+            out.flush();
+            return true;
+        } catch (Exception e){
+            return false;
+        }finally {
+            closeIO(out);
+        }
+    }
     /**
      * 将输入流写入文件
      *
@@ -643,8 +677,8 @@ public class FileUtils {
      * @param append   是否追加在文件末
      * @return {@code true}: 写入成功<br>{@code false}: 写入失败
      */
-    public static boolean writeFileFromIS(String filePath, InputStream is, boolean append) {
-        return writeFileFromIS(getFileByPath(filePath), is, append);
+    public static boolean write(String filePath, InputStream is, boolean append) {
+        return write(getFileByPath(filePath), is, append);
     }
 
     /**
@@ -655,15 +689,15 @@ public class FileUtils {
      * @param append 是否追加在文件末
      * @return {@code true}: 写入成功<br>{@code false}: 写入失败
      */
-    public static boolean writeFileFromIS(File file, InputStream is, boolean append) {
+    public static boolean write(File file, InputStream is, boolean append) {
         if (file == null || is == null) return false;
         if (!createOrExistsFile(file)) return false;
         OutputStream os = null;
         try {
             os = new BufferedOutputStream(new FileOutputStream(file, append));
-            byte data[] = new byte[ConstantUtil.KB];
+            byte data[] = new byte[Constant.KB];
             int len;
-            while ((len = is.read(data, 0, ConstantUtil.KB)) != -1) {
+            while ((len = is.read(data, 0, Constant.KB)) != -1) {
                 os.write(data, 0, len);
             }
             return true;
@@ -675,42 +709,65 @@ public class FileUtils {
         }
     }
 
-    /**
-     * 将字符串写入文件
-     *
-     * @param filePath 文件路径
-     * @param content  写入内容
-     * @param append   是否追加在文件末
-     * @return {@code true}: 写入成功<br>{@code false}: 写入失败
-     */
-    public static boolean writeFileFromString(String filePath, String content, boolean append) {
-        return writeFileFromString(getFileByPath(filePath), content, append);
+    public static String read(String filePath){
+        BufferedReader read = null;
+        StringBuffer result=new StringBuffer();
+        try {
+            read = new BufferedReader(new FileReader(filePath));
+            String data=null;
+            while((data=read.readLine())!=null){
+                result.append(data);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }finally {
+            closeIO(read);
+        }
+        return result.toString();
     }
 
     /**
-     * 将字符串写入文件
+     * 指定编码按行读取文件到字符串中
      *
-     * @param file    文件
-     * @param content 写入内容
-     * @param append  是否追加在文件末
-     * @return {@code true}: 写入成功<br>{@code false}: 写入失败
+     * @param filePath    文件路径
+     * @param charsetName 编码格式
+     * @return 字符串
      */
-    public static boolean writeFileFromString(File file, String content, boolean append) {
-        if (file == null || content == null) return false;
-        if (!createOrExistsFile(file)) return false;
-        FileWriter fileWriter = null;
+    public static String read(String filePath, String charsetName) {
+        return read(getFileByPath(filePath), charsetName);
+    }
+
+    /**
+     * 指定编码按行读取文件到字符串中
+     *
+     * @param file        文件
+     * @param charsetName 编码格式
+     * @return 字符串
+     */
+    public static String read(File file, String charsetName) {
+        if (file == null) return null;
+        BufferedReader reader = null;
         try {
-            fileWriter = new FileWriter(file, append);
-            fileWriter.write(content);
-            return true;
+            StringBuilder sb = new StringBuilder();
+            if (StringUtils.isSpace(charsetName)) {
+                reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            } else {
+                reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charsetName));
+            }
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\r\n");// windows系统换行为\r\n，Linux为\n
+            }
+            // 要去除最后的换行符
+            return sb.delete(sb.length() - 2, sb.length()).toString();
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return null;
         } finally {
-            closeIO(fileWriter);
+            closeIO(reader);
         }
     }
-
     /**
      * 指定编码按行读取文件到List
      *
@@ -783,47 +840,7 @@ public class FileUtils {
         }
     }
 
-    /**
-     * 指定编码按行读取文件到字符串中
-     *
-     * @param filePath    文件路径
-     * @param charsetName 编码格式
-     * @return 字符串
-     */
-    public static String readFile2String(String filePath, String charsetName) {
-        return readFile2String(getFileByPath(filePath), charsetName);
-    }
 
-    /**
-     * 指定编码按行读取文件到字符串中
-     *
-     * @param file        文件
-     * @param charsetName 编码格式
-     * @return 字符串
-     */
-    public static String readFile2String(File file, String charsetName) {
-        if (file == null) return null;
-        BufferedReader reader = null;
-        try {
-            StringBuilder sb = new StringBuilder();
-            if (StringUtils.isSpace(charsetName)) {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            } else {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charsetName));
-            }
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\r\n");// windows系统换行为\r\n，Linux为\n
-            }
-            // 要去除最后的换行符
-            return sb.delete(sb.length() - 2, sb.length()).toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            closeIO(reader);
-        }
-    }
 
     /**
      * 读取文件到字符数组中
@@ -911,9 +928,9 @@ public class FileUtils {
         InputStream is = null;
         try {
             is = new BufferedInputStream(new FileInputStream(file));
-            byte[] buffer = new byte[ConstantUtil.KB];
+            byte[] buffer = new byte[Constant.KB];
             int readChars;
-            while ((readChars = is.read(buffer, 0, ConstantUtil.KB)) != -1) {
+            while ((readChars = is.read(buffer, 0, Constant.KB)) != -1) {
                 for (int i = 0; i < readChars; ++i) {
                     if (buffer[i] == '\n') ++count;
                 }

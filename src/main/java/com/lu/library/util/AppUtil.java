@@ -1,34 +1,17 @@
 package com.lu.library.util;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.ActivityManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.os.StatFs;
-import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
-import android.text.format.Formatter;
-import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.lu.library.LibContext;
 import com.lu.library.log.LogUtil;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,61 +22,50 @@ import java.util.Locale;
  */
 public class AppUtil {
 
-    public static boolean isCustomization = false;  //如果是定制项目则改为true
     /**
-     * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
-     *
-     * @param context
-     * @return true 表示开启
-     */
-    public static boolean isGpsOpen(Context context) {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        // 通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
-        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        // 通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
-        boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if (gps || network) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * 强制帮用户打开GPS
-     *
-     * @param context
-     */
-    public static void openGPS(Context context) {
-        Intent GPSIntent = new Intent();
-        GPSIntent.setClassName("com.android.settings",
-                "com.android.settings.widget.SettingsAppWidgetProvider");
-        GPSIntent.addCategory("android.intent.category.ALTERNATIVE");
-        GPSIntent.setData(Uri.parse("custom:3"));
-        try {
-            PendingIntent.getBroadcast(context, 0, GPSIntent, 0).send();
-        } catch (PendingIntent.CanceledException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 是否是中国地区
-     *
+     * 返回Manifest指定meta-data值
+     * @param context 全局context
+     * @param key meta-data key
      * @return
+     *      成功-value
+     *      失败-""
      */
-    public static boolean isInChina() {
-        return Locale.getDefault().getCountry().equals("CN");
+    public static String getMetaData(Context context, String key) {
+        ApplicationInfo app_info = null;
+        try {
+            app_info = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            if(app_info == null || app_info.metaData == null) {
+                return "";
+            } else {
+                Object obj = app_info.metaData.get(key);
+                if(obj != null) {
+                    return obj.toString();
+                } else {
+                    return "";
+                }
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return "";
+        }
     }
 
-    public static int getAppMaxMemory(){
-        Runtime rt=Runtime.getRuntime();
-        long maxMemory=rt.maxMemory();
-//        log.i());
-//        tvMsg.setText("maxMemory:"+Long.toString(maxMemory/(1024*1024))+"MB");
-        int mb= (int) (maxMemory/(1024*1024));
-        return mb;
+    /**
+     * 获取版本号
+     * @param context 全局context
+     * @return versoin code
+     */
+    public static int getVersionCode(Context context) {
+        int version = 1;
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            version = packInfo.versionCode;
+        } catch (Exception e) {
+        }
+
+        return version;
     }
+
     public static String getLanguage(){
         Locale locale = LibContext.getAppContext().getResources().getConfiguration().locale;
         return locale.getLanguage();
@@ -155,173 +127,16 @@ public class AppUtil {
             return "";
         }
     }
-    @SuppressLint("MissingPermission")
     public static String getPhoneInfo(Context context){
         TelephonyManager mTm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         StringBuffer stringBuffer=new StringBuffer();
-        stringBuffer.append("IMEI:"+mTm.getDeviceId());
         stringBuffer.append(",type:"+ Build.MODEL);
+        stringBuffer.append(",品牌:"+ Build.MANUFACTURER);
+        stringBuffer.append(",设备名称:"+ Build.MANUFACTURER+Build.DEVICE);
         stringBuffer.append(",SDK_INT:"+ Build.VERSION.SDK_INT);
         stringBuffer.append(",RELEASE:"+ Build.VERSION.RELEASE);
-        stringBuffer.append(",number:"+mTm.getLine1Number());
+        stringBuffer.append(",app版本:"+getVersionName(context));
         return stringBuffer.toString();
-    }
-    public static String getPhoneLogInfo(Context context){
-        TelephonyManager mTm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-        StringBuffer stringBuffer=new StringBuffer();
-        stringBuffer.append("品牌:"+ Build.MANUFACTURER);
-        stringBuffer.append("\n设备名称:"+ Build.MANUFACTURER+Build.DEVICE);
-        stringBuffer.append("\n型号:"+ Build.MODEL);
-        stringBuffer.append("\n版本号:"+ Build.DISPLAY);
-        stringBuffer.append("\n处理器:"+getCpuInfo()[0]);
-        stringBuffer.append("\n运行内存:"+getAvailMemory(context));
-        String[] size=getSDTotalSize();
-        stringBuffer.append("\n手机存储: 可用空间:"+size[1]+",总容量:"+size[0]+",已使用空间:"+size[2]);
-        DisplayMetrics displayMetrics=context.getResources().getDisplayMetrics();
-        stringBuffer.append("\n分辨率:"+displayMetrics.widthPixels+"*"+displayMetrics.heightPixels);
-        stringBuffer.append("\nandroid版本:"+Build.VERSION.SDK_INT);
-        stringBuffer.append("\napp版本:"+getVersionName(context));
-//        stringBuffer.append(",number:"+mTm.getLine1Number());
-
-        LogUtil.d(""+Build.BOARD);
-        LogUtil.d(Build.BOOTLOADER);
-        LogUtil.d(Build.BRAND);
-        LogUtil.d(Build.DEVICE);
-        LogUtil.d(Build.DISPLAY);
-        LogUtil.d(Build.FINGERPRINT);
-        LogUtil.d(Build.HARDWARE);
-        LogUtil.d(Build.ID);
-        LogUtil.d(Build.MANUFACTURER);
-        LogUtil.d(Build.MODEL);
-        LogUtil.d(Build.PRODUCT);
-        LogUtil.d(Build.SERIAL);
-        LogUtil.d(Build.TAGS);
-        LogUtil.d(Build.USER);
-        LogUtil.d(Build.CPU_ABI);
-        LogUtil.d(""+Build.VERSION.SDK_INT);
-        LogUtil.d(""+getCpuInfo()[0]+","+getCpuInfo()[1]);
-        LogUtil.d(stringBuffer.toString());
-
-        return stringBuffer.toString();
-    }
-
-    private static String[] getCpuInfo() {
-        String str1 = "/proc/cpuinfo";
-        String str2 = "";
-        String[] cpuInfo = {"", ""};  //1-cpu型号  //2-cpu频率
-        String[] arrayOfString;
-        try {
-            FileReader fr = new FileReader(str1);
-            BufferedReader localBufferedReader = new BufferedReader(fr, 8192);
-            str2 = localBufferedReader.readLine();
-            arrayOfString = str2.split("\\s+");
-            for (int i = 2; i < arrayOfString.length; i++) {
-                cpuInfo[0] = cpuInfo[0] + arrayOfString[i] + " ";
-            }
-            str2 = localBufferedReader.readLine();
-            arrayOfString = str2.split("\\s+");
-            cpuInfo[1] += arrayOfString[2];
-            localBufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        LogUtil.d("cpuinfo:" + cpuInfo[0] + " " + cpuInfo[1]);
-        return cpuInfo;
-    }
-
-
-    /**
-     * 根据路径获取内存状态
-     * @return
-     */
-    private static String getMemoryInfo(Context context) {
-        // 获得手机内部存储控件的状态
-        File dataFileDir = Environment.getDataDirectory();
-        // 获得一个磁盘状态对象
-        StatFs stat = new StatFs(dataFileDir.getPath());
-
-        long blockSize = stat.getBlockSize();   // 获得一个扇区的大小
-
-        long totalBlocks = stat.getBlockCount();    // 获得扇区的总数
-
-        long availableBlocks = stat.getAvailableBlocks();   // 获得可用的扇区数量
-
-        // 总空间
-        String totalMemory =  Formatter.formatFileSize(context, totalBlocks * blockSize);
-        // 可用空间
-        String availableMemory = Formatter.formatFileSize(context, availableBlocks * blockSize);
-
-        return "总空间: " + totalMemory + "\n可用空间: " + availableMemory;
-    }
-    //  总容量，未使用，已使用
-    private  static String[] getSDTotalSize(){
-        File path = Environment.getExternalStorageDirectory();
-        StatFs sf = new StatFs(path.getPath());
-        long size = sf.getBlockSize();//SD卡的单位大小
-        long total = sf.getBlockCount();//总数量
-        long available = sf.getAvailableBlocks();//可使用的数量
-        DecimalFormat df = new DecimalFormat();
-        df.setGroupingSize(3);//每3位分为一组
-//总容量
-        String totalSize = (size*total)/1024>=1024?df.format(((size*total)/1024)/1024)+"MB":df.format((size*total)/1024)+"KB";
-//未使用量
-        String avalilable = (size*available)/1024>=1024?df.format(((size*available)/1024)/1024)+"MB":df.format((size*available)/1024)+"KB";
-//已使用量
-        String usedSize = size*(total-available)/1024>=1024?df.format(((size*(total-available))/1024)/1024)+"MB":df.format(size*(total-available)/1024)+"KB";
-        String[] totalSizeStr=new String[]{totalSize,avalilable,usedSize};
-        return totalSizeStr;
-    }
-    /**
-     * 获取手机内存大小
-     *
-     * @return
-     */
-    private static String getTotalMemory(Context context) {
-        String str1 = "/proc/meminfo";// 系统内存信息文件
-        String str2;
-        String[] arrayOfString;
-        long initial_memory = 0;
-        try {
-            FileReader localFileReader = new FileReader(str1);
-            BufferedReader localBufferedReader = new BufferedReader(localFileReader, 8192);
-            str2 = localBufferedReader.readLine();// 读取meminfo第一行，系统总内存大小
-
-            arrayOfString = str2.split("\\s+");
-            for (String num : arrayOfString) {
-                Log.i(str2, num + "\t");
-            }
-
-            initial_memory = Integer.valueOf(arrayOfString[1]).intValue()/1024;// 获得系统总内存，单位是KB，乘以1024转换为Byte
-            localBufferedReader.close();
-
-        } catch (IOException e) {
-        }
-        LogUtil.d("initial_memory:"+initial_memory);
-        return Formatter.formatFileSize(context, initial_memory);// Byte转换为KB或者MB，内存大小规格化
-    }
-    /**
-     * //获得系统可用内存信息
-     *
-     * @return
-     */
-    private static String getAvailMemory(Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
-        am.getMemoryInfo(mi);
-        return Formatter.formatFileSize(context, mi.availMem);
-    }
-    /**
-     * 获取手机IMEI号
-     */
-    public static String getIMEI(Context context) {
-
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
-            return "";
-        }
-        TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-        String imei = telephonyManager.getDeviceId();
-        return imei;
     }
     /**
      * 根据包名判断是否安装了应用

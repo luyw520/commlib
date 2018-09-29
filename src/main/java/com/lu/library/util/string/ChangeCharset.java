@@ -117,24 +117,6 @@ public class ChangeCharset {
         }
         return null;
     }
-//    /**
-//     * 字符串编码转换的实现方法
-//     *
-//     * @param str        待转换编码的字符串
-//     * @param newCharset 目标编码
-//     * @return
-//     * @throws UnsupportedEncodingException
-//     */
-//    public static String decodeCharset(String str, String newCharset)
-//            throws UnsupportedEncodingException {
-//        if (str != null) {
-//            //用默认字符编码解码字符串。
-//            byte[] bs = str.getBytes(newCharset);
-//            //用新的字符编码生成字符串
-//            return new String(bs, newCharset);
-//        }
-//        return null;
-//    }
 
     /**
      * 字符串编码转换的实现方法

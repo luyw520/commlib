@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lu.library.util.DebugLog;
+import com.lu.library.log.DebugLog;
 import com.lu.library.util.EventBusHelper;
 import com.lu.library.util.HookClickListenerHelper;
 import com.lu.library.util.ObjectUtil;

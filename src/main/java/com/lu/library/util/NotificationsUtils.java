@@ -76,14 +76,11 @@ public class NotificationsUtils {
          // 进入设置系统应用权限界面
          Intent intent = new Intent(Settings.ACTION_SETTINGS);
          context.startActivity(intent);
-         return;
       } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {// 运行系统在5.x环境使用
          // 进入设置系统应用权限界面
          Intent intent = new Intent(Settings.ACTION_SETTINGS);
          context.startActivity(intent);
-         return;
       }
-      return;
    }
 
     /**

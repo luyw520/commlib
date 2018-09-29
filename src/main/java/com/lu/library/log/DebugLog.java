@@ -1,4 +1,4 @@
-package com.lu.library.util;
+package com.lu.library.log;
 
 import android.util.Log;
 

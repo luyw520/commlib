@@ -1,7 +1,7 @@
 package com.lu.library.util.file;
 
 
-import com.lu.library.util.ConstantUtil;
+import com.lu.library.Constant;
 import com.lu.library.util.string.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -28,7 +28,7 @@ import java.util.zip.ZipOutputStream;
  *     desc  : 压缩相关工具类
  * </pre>
  */
-public class ZipUtils implements ConstantUtil {
+public class ZipUtils implements Constant {
 
     private ZipUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");

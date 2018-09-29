@@ -10,7 +10,7 @@ import android.view.Window;
 import android.widget.EditText;
 
 import com.lu.library.util.EventBusHelper;
-import com.lu.library.util.NetworkUtil;
+import com.lu.library.util.NetUtils;
 import com.lu.library.util.ObjectUtil;
 import com.lu.library.util.PermissionUtil;
 import com.lu.library.util.ScreenUtils;
@@ -224,7 +224,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
 
     protected boolean isNetWorkAndToast() {
-        if (!NetworkUtil.checkNetworkConnect(this)) {
+        if (!NetUtils.isConnected(this)) {
 //            showToast((R.string.no_network));
             return false;
         }

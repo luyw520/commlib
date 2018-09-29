@@ -1,7 +1,5 @@
 package com.lu.library.util;
 
-import com.lu.library.base.BasePresenter;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -21,7 +19,7 @@ public class ObjectUtil {
      * 得到泛型类P的对象
      * @return Class对象的第一个泛型对象
      */
-    public  static <P extends BasePresenter> P getParameterizedType(Class<?> clazz){
+    public  static <P> P getParameterizedType(Class<?> clazz){
         //返回表示此 Class 所表示的实体类的 直接父类 的 Type。注意，是直接父类
         //这里type结果是 com.dfsj.generic.GetInstanceUtil<com.dfsj.generic.User>
         Type type = clazz.getGenericSuperclass();
@@ -42,11 +40,27 @@ public class ObjectUtil {
 
     }
 
+    public static <T> T checkNotNull(T obj) {
+        if(obj == null) {
+            throw new NullPointerException();
+        } else {
+            return obj;
+        }
+    }
+
+    /**
+     * 检测集合是否为空
+     * @param collection
+     * @return
+     */
     public static boolean isCollectionEmpty(Collection collection){
         if (collection==null){
             return true;
         }
-        return collection.isEmpty();
+        if (collection.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
 }

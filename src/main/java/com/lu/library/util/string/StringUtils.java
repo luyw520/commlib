@@ -3,6 +3,7 @@ package com.lu.library.util.string;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
+import java.util.Random;
 
 public class StringUtils {
 
@@ -11,7 +12,198 @@ public class StringUtils {
 		final DecimalFormat decimalFormat = new DecimalFormat("#.00");
 		decimalFormat.format(d);
 	}
+	/**
+	 *d=0.22545 num=2 return 0.22<br/>
+	 *d=0.22545 num=3 return 0.225<br/>
+	 *d=0.22545 num=4 return 0.2254<br/>
+	 *
+	 * @param d 截取2位小数点
+	 * @return
+	 */
+	public static String format2Point(double d){
+		return String.valueOf(formatPoint(d,2));
+	}
+	/**
+	 *d=0.22545 num=2 return 0.22
+	 *d=0.22545 num=3 return 0.225
+	 *d=0.22545 num=4 return 0.2254
+	 *
+	 * @param d
+	 * @param num 保留的小数点位数
+	 * @return 截取num位小数点
+	 */
+	public static double formatPoint(double d,int num){
+		double sprt=Math.pow(10, num);
+		int tempd=(int) (d*sprt);
+		return (double)tempd/sprt;
+	}
 
+	public static String substring(String str, int length) {
+		if (str == null)
+			return null;
+
+		if (str.length() > length)
+			return (str.substring(0, length - 2) + "...");
+		else
+			return str;
+	}
+	/**
+	 * 字符串全文替换
+	 *
+	 * @param s0
+	 * @param oldstr
+	 * @param newstr
+	 * @return
+	 */
+	public static String replaceAll(String s0, String oldstr, String newstr) {
+		if (s0 == null || s0.trim().equals(""))
+			return null;
+		StringBuffer sb = new StringBuffer(s0);
+		int begin = 0;
+		// int from = 0;
+		begin = s0.indexOf(oldstr);
+		while (begin > -1) {
+			sb = sb.replace(begin, begin + oldstr.length(), newstr);
+			s0 = sb.toString();
+			begin = s0.indexOf(oldstr, begin + newstr.length());
+		}
+		return s0;
+	}
+	public static  String randomString(int length) {
+		if (length < 1) {
+			return null;
+		}
+		 Random randGen = null;
+		Object initLock = new Object();
+		 char[] numbersAndLetters = null;
+		// Init of pseudo random number generator.
+		if (randGen == null) {
+			synchronized (initLock) {
+				if (randGen == null) {
+					randGen = new Random();
+					// Also initialize the numbersAndLetters array
+					numbersAndLetters = ("0123456789abcdefghijklmnopqrstuvwxyz"
+							+ "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+							.toCharArray();
+				}
+			}
+		}
+		// Create a char buffer to put random letters and numbers in.
+		char[] randBuffer = new char[length];
+		for (int i = 0; i < randBuffer.length; i++) {
+			randBuffer[i] = numbersAndLetters[randGen.nextInt(71)];
+		}
+		return new String(randBuffer);
+	}
+	/**
+	 * 验证汉字为true
+	 *
+	 * @param s
+	 * @return
+	 */
+	public static boolean isLetterorDigit(String s) {
+		if (s.equals("") || s == null) {
+			return false;
+		}
+		for (int i = 0; i < s.length(); i++) {
+			if (!Character.isLetterOrDigit(s.charAt(i))) {
+				// if (!Character.isLetter(s.charAt(i))){
+				return false;
+			}
+		}
+		// Character.isJavaLetter()
+		return true;
+	}
+	/**
+	 * 验证是不是Int validate a int string
+	 *
+	 * @param str
+	 *            the Integer string.
+	 * @return true if the str is invalid otherwise false.
+	 */
+	public static boolean validateInt(String str) {
+		if (str == null || str.trim().equals(""))
+			return false;
+
+		char c;
+		for (int i = 0, l = str.length(); i < l; i++) {
+			c = str.charAt(i);
+			if (!((c >= '0') && (c <= '9')))
+				return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * 字节码转换成16进制字符串 内部调试使用
+	 *
+	 * @param b
+	 * @return
+	 */
+	public static String byte2hex(byte[] b) {
+		String hs = "";
+		String stmp = "";
+		for (int n = 0; n < b.length; n++) {
+			stmp = (Integer.toHexString(b[n] & 0XFF));
+			if (stmp.length() == 1)
+				hs = hs + "0" + stmp;
+			else
+				hs = hs + stmp;
+			if (n < b.length - 1)
+				hs = hs + ":";
+		}
+		return hs.toUpperCase();
+	}
+
+	/**
+	 * 字节码转换成自定义字符串 内部调试使用
+	 *
+	 * @param b
+	 * @return
+	 */
+	public static String byte2string(byte[] b) {
+		String hs = "";
+		String stmp = "";
+		for (int n = 0; n < b.length; n++) {
+			stmp = (Integer.toHexString(b[n] & 0XFF));
+			if (stmp.length() == 1)
+				hs = hs + "0" + stmp;
+			else
+				hs = hs + stmp;
+			// if (n<b.length-1) hs=hs+":";
+		}
+		return hs.toUpperCase();
+	}
+
+	public static byte[] string2byte(String hs) {
+		byte[] b = new byte[hs.length() / 2];
+		for (int i = 0; i < hs.length(); i = i + 2) {
+			String sub = hs.substring(i, i + 2);
+			byte bb = new Integer(Integer.parseInt(sub, 16)).byteValue();
+			b[i / 2] = bb;
+		}
+		return b;
+	}
+	/**
+	 * 得到字符串中某个字符的个数
+	 *
+	 * @param str
+	 *            字符串
+	 * @param c
+	 *            字符
+	 * @return
+	 */
+	public static final int getCharnum(String str, char c) {
+		int num = 0;
+		char[] chars = str.toCharArray();
+		for (int i = 0; i < chars.length; i++) {
+			if (c == chars[i]) {
+				num++;
+			}
+		}
+		return num;
+	}
 
 	/**
 	 * 判断字符串是否为null或长度为0
@@ -98,7 +290,38 @@ public class StringUtils {
 		}
 		return new String(chars);
 	}
+	/**
+	 * 修改敏感字符编码
+	 *
+	 * @param value
+	 * @return
+	 */
+	public static String htmlEncode(String value) {
+		String re[][] = { { "<", "&lt;" }, { ">", "&gt;" }, { "\"", "&quot;" },
+				{ "\\′", "&acute;" }, { "&", "&amp;" } };
 
+		for (int i = 0; i < 4; i++) {
+			value = value.replaceAll(re[i][0], re[i][1]);
+		}
+		return value;
+	}
+
+	/**
+	 * 防SQL注入
+	 *
+	 * @param str
+	 * @return
+	 */
+	public static boolean sql_inj(String str) {
+		String inj_str = "'|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare|;|or|-|+|,";
+		String inj_stra[] = inj_str.split("|");
+		for (int i = 0; i < inj_stra.length; i++) {
+			if (str.indexOf(inj_stra[i]) >= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 	/**
 	 * 转化为半角字符
 	 *

@@ -15,8 +15,9 @@ import com.lu.library.Constant;
 import com.lu.library.R;
 import com.lu.library.base.BaseActivity;
 import com.lu.library.util.AsyncTaskUtil;
-import com.lu.library.util.BitmapUtil;
-import com.lu.library.util.DebugLog;
+import com.lu.library.log.DebugLog;
+import com.lu.library.util.image.BitmapBuilder;
+import com.lu.library.util.image.BitmapUtils;
 import com.lu.library.widget.CommonTitleBarHelper;
 import com.lu.library.widget.clip.ClipImageLayout;
 
@@ -45,7 +46,7 @@ public class ImageFactoryActivity extends BaseActivity {
 		final Uri uri=getIntent().getData();
 		if (android.os.Build.MANUFACTURER.equalsIgnoreCase("xiaomi")||android.os.Build.MANUFACTURER.equalsIgnoreCase("samsung")){
 
-			Bitmap bitmap = BitmapUtil.readBitmapFromFile(uri.getPath(), 400, 400);
+			Bitmap bitmap = BitmapBuilder.getBitmap(uri.getPath(), 400, 400);
 			if(uri.getPath().endsWith(".png")) {
 				if (android.os.Build.MANUFACTURER.equalsIgnoreCase("samsung")) {
 					if (bitmap != null) {
@@ -82,7 +83,7 @@ public class ImageFactoryActivity extends BaseActivity {
 				if (bitmap!=null){
 					cropImageView.mZoomImageView.setImageBitmap(bitmap);
 				}else{
-					bitmap = BitmapUtil.readBitmapFromFile(uri.getPath(), 400, 400);
+					bitmap = BitmapBuilder.getBitmap(uri.getPath(), 400, 400);
 					if (bitmap!=null){
 						cropImageView.mZoomImageView.setImageBitmap(bitmap);
 					}else{
@@ -164,7 +165,7 @@ public class ImageFactoryActivity extends BaseActivity {
 				public Object doInBackground(String... arg0) {
 					Bitmap bitmap=cropImageView.clip();
 					File file = new File(Constant.PIC_PATH + photoPath);
-					BitmapUtil.saveBitmap(bitmap, file.getAbsolutePath());
+					BitmapUtils.save(bitmap, file.getAbsolutePath());
 					return null;
 				}
 

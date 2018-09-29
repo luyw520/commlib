@@ -10,7 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.lu.library.util.ConstUtils;
+import com.lu.library.Constant;
 import com.lu.library.util.file.FileUtils;
 
 import java.io.ByteArrayInputStream;
@@ -138,14 +138,10 @@ public class ConvertUtils {
      *
      * @param byteNum 字节数
      * @param unit    <ul>
-     *                <li>{@link ConstUtils.MemoryUnit#BYTE}: 字节</li>
-     *                <li>{@link ConstUtils.MemoryUnit#KB}  : 千字节</li>
-     *                <li>{@link ConstUtils.MemoryUnit#MB}  : 兆</li>
-     *                <li>{@link ConstUtils.MemoryUnit#GB}  : GB</li>
      *                </ul>
      * @return 以unit为单位的size
      */
-    public static double byte2Size(long byteNum, ConstUtils.MemoryUnit unit) {
+    public static double byte2Size(long byteNum, Constant.MemoryUnit unit) {
         if (byteNum < 0) return -1;
         switch (unit) {
             default:
@@ -165,14 +161,10 @@ public class ConvertUtils {
      *
      * @param size 大小
      * @param unit <ul>
-     *             <li>{@link ConstUtils.MemoryUnit#BYTE}: 字节</li>
-     *             <li>{@link ConstUtils.MemoryUnit#KB}  : 千字节</li>
-     *             <li>{@link ConstUtils.MemoryUnit#MB}  : 兆</li>
-     *             <li>{@link ConstUtils.MemoryUnit#GB}  : GB</li>
      *             </ul>
      * @return 字节数
      */
-    public static long size2Byte(long size, ConstUtils.MemoryUnit unit) {
+    public static long size2Byte(long size, Constant.MemoryUnit unit) {
         if (size < 0) return -1;
         switch (unit) {
             default:
