@@ -111,7 +111,7 @@ public class DebugLog {
             return;
 
         getMethodNames(new Throwable().getStackTrace());
-        Log.i(className, createLog(message));
+        Log.d(className, createLog(message));
     }
 
     public static void d(String message) {
