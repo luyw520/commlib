@@ -1,5 +1,6 @@
 package com.lu.library.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,9 +13,19 @@ public class DateUtil {
 
 
     private static Calendar calendar = null;
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("MM-dd");
     public static String format(String pattern){
         SimpleDateFormat format=new SimpleDateFormat(pattern);
         return format.format(new Date());
+    }
+    public static long getLongFromDateStr(String currentTimeMillis) {
+        try {
+            return simpleDateFormat.parse(currentTimeMillis).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
     public static Date getDateByHMS(int hour, int minute, int second) {
         Calendar calendar=Calendar.getInstance();

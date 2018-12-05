@@ -38,7 +38,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$SUPPORTVERSION"
     compile 'io.reactivex.rxjava2:rxjava:2.1.14'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    compile files('libs/gson-2.7.jar')
+//    compile files('libs/gson-2.7.jar')
     compile 'com.tamic.novate:novate:1.5.5'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.jakewharton:butterknife:7.0.1'

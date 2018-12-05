@@ -8,8 +8,6 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.lu.library.R;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -133,12 +131,12 @@ public abstract class UniversalItemDecoration extends RecyclerView.ItemDecoratio
         public void drawItemOffsets(Canvas c, int leftZ, int topZ, int rightZ, int bottomZ, int loacation) {
             if(splitItemColor != -1){
                 mPaint.setColor(splitItemColor);
-                c.drawRect(topLeftPadding, topZ-mContext.getResources().getDimensionPixelOffset(R.dimen.x1), rightZ, bottomZ, mPaint);//画分割条
-                mPaint.setColor(decorationColor);
-                if(!isFirstPosition && loacation == 1) {
-                     c.drawRect(topLeftPadding, topZ, rightZ, topZ+mContext.getResources().getDimensionPixelOffset(R.dimen.x1), mPaint);//上分割线
-                }
-                c.drawRect(topLeftPadding, topZ + top - mContext.getResources().getDimensionPixelOffset(R.dimen.x1), rightZ, bottomZ, mPaint);//下分割线
+//                c.drawRect(topLeftPadding, topZ-mContext.getResources().getDimensionPixelOffset(R.dimen.x1), rightZ, bottomZ, mPaint);//画分割条
+//                mPaint.setColor(decorationColor);
+//                if(!isFirstPosition && loacation == 1) {
+//                     c.drawRect(topLeftPadding, topZ, rightZ, topZ+mContext.getResources().getDimensionPixelOffset(R.dimen.x1), mPaint);//上分割线
+//                }
+//                c.drawRect(topLeftPadding, topZ + top - mContext.getResources().getDimensionPixelOffset(R.dimen.x1), rightZ, bottomZ, mPaint);//下分割线
             }else {
                 mPaint.setColor(decorationColor);
                 if(loacation ==2){
