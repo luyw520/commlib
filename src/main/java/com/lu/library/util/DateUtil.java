@@ -16,8 +16,69 @@ public class DateUtil {
         SimpleDateFormat format=new SimpleDateFormat(pattern);
         return format.format(new Date());
     }
+    public static Date getDateByHMS(int hour, int minute, int second) {
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,hour);
+        calendar.set(Calendar.MINUTE,minute);
+        calendar.set(Calendar.SECOND,second);
+        calendar.set(Calendar.MILLISECOND,0);
+        return calendar.getTime();
+    }
+    /**
+     * 格式化配速
+     *
+     * @param pace
+     * @return
+     */
+    public static String computeTimePace(String pace) {
+        if (pace.contains(".")) {
+            String[] paces = pace.split("\\.");
+            return String.format("%02d", Integer.parseInt(paces[0])) + "'" + String.format("%02d", Integer.parseInt(paces[1])) + "''";
+        } else if (pace.contains(",")){
+            String[] paces = pace.split(",");
+            return String.format("%02d", Integer.parseInt(paces[0])) + "'" + String.format("%02d", Integer.parseInt(paces[1])) + "''";
+        }else {
+            return String.format("%02d", 0) + "'" + String.format("%02d", 0) + "''";
+        }
 
+    }
+    /**
+     * 时间格式化
+     *
+     * @param time
+     * @return 5'55''
+     */
+    public static String computeTimeMS(int time) {
+        int minute = time / 60;
+        int second = time % 60;
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%02d", minute));
+        sb.append("\'");
+        sb.append(String.format("%02d", second));
+        sb.append("\'\'");
+        return sb.toString();
+    }
+    /**
+     * 时间格式化
+     *
+     * @param time 66
+     * @return 00:01:06
+     */
+    public static String computeTimeHMS(long time) {
 
+        int hour = (int) (time / 60 / 60);
+        StringBuffer result = new StringBuffer();
+        time -= hour * 60 * 60;
+        result.append(String.format("%02d", hour));
+        result.append(":");
+        int minute = (int) (time / 60);
+        int second = (int) (time - minute * 60);
+        result.append(String.format("%02d", minute));
+        result.append(":");
+        result.append(String.format("%02d", second));
+
+        return result.toString();
+    }
     public static String format(int year, int mouth, int day,String split) {
         return year + split + String.format("%02d", mouth) + split + String.format("%02d", day);
     }

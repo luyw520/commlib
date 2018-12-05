@@ -1,8 +1,9 @@
 package com.lu.library.log;
 
-import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.lu.library.Constant;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,7 +17,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by zhouzj on 2018/7/30.
  */
 
 public class LogUtil {
@@ -25,7 +25,7 @@ public class LogUtil {
     private static int lineNumber;
 
     private static final int JSON_INDENT = 4;
-    public static final String APP_ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/veryfit2.2";
+    public static final String APP_ROOT_PATH = Constant.APP_ROOT_PATH;
     public static final String LOG_PATH = APP_ROOT_PATH + "/log";
     public static final String GOOGLEFIT_PATH = LOG_PATH + "/googlefit/";
     private static SimpleDateFormat logfile = new SimpleDateFormat("yyyy-MM-dd");

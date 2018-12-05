@@ -3,8 +3,10 @@ package com.lu.library.util.image;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.lu.library.util.file.FileUtil;
 import com.lu.library.util.string.ConvertUtil;
@@ -12,6 +14,7 @@ import com.lu.library.util.string.ConvertUtil;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +41,39 @@ public class BitmapUtil {
         return bitmap.getAllocationByteCount()/1024;
 
     }
+    /**
+     * 组装地图截图和其他View截图，需要注意的是目前提供的方法限定为MapView与其他View在同一个ViewGroup下
+     *
+     * @param bitmap        地图截图回调返回的结果
+     * @param viewContainer MapView和其他要截图的View所在的父容器ViewGroup
+     * @param mapView       MapView控件
+     * @param views         其他想要在截图中显示的控件
+     */
+    public static Bitmap getMapAndViewScreenShot(final Bitmap bitmap, final ViewGroup viewContainer, final View mapView, final boolean isScreeH, final View... views) {
 
+        int width = viewContainer.getWidth();
+//        int height = viewContainer.getHeight();
+        int h = viewContainer.getHeight();
+        if (isScreeH) {
+            h = 0;
+            for (int i = 0; i < viewContainer.getChildCount(); i++) {
+                h += viewContainer.getChildAt(i).getHeight();
+            }
+        }
+
+        final Bitmap screenBitmap = Bitmap.createBitmap(width, h, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(screenBitmap);
+        canvas.drawBitmap(bitmap, mapView.getLeft(), mapView.getTop(), null);
+        for (View view : views) {
+            if (view.getVisibility() == View.VISIBLE) {
+                view.setDrawingCacheEnabled(true);
+                canvas.drawBitmap(view.getDrawingCache(), view.getLeft(), view.getTop(), null);
+            }
+
+        }
+
+        return screenBitmap;
+    }
     /**
      * bitmap转byteArr
      *
@@ -70,6 +105,28 @@ public class BitmapUtil {
         return ConvertUtil.drawable2Bitmap(drawable);
     }
 
+    /** Bitmap 保存到sdcard
+     *
+     * @param b bitmap 对象，
+     * @param strFileName 文件路径
+     */
+    public static void saveBitmap(Bitmap b, String strFileName) {
+        FileOutputStream fos = null;
+        long start=System.currentTimeMillis();
+        try {
+            fos = new FileOutputStream(String.valueOf(strFileName));
+            if (null != fos) {
+                b.compress(Bitmap.CompressFormat.PNG, 90, fos);
+                fos.flush();
+                fos.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * bitmap转drawable
      *

@@ -30,17 +30,16 @@ public class LibContext {
         BlockDetectByPrinter.start();
         initFacebook();
         init7_0_Camera();
-        initCrashHandler();
     }
     /**
      * 初始化捕获日志辅助类
      */
-    private void initCrashHandler() {
+    public void initCrashHandler(String dir) {
         LogUtil.d("BuildConfig.DEBUG:"+BuildConfig.DEBUG);
         //正式版才采用crash
         if (!BuildConfig.DEBUG){
             CrashHandlerUtil.getInstance().init(context);
-            CrashHandlerUtil.getInstance().setCrashDir(Constant.CRASH_PATH);
+            CrashHandlerUtil.getInstance().setCrashDir(dir);
         }
 
     }

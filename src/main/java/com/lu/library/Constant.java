@@ -15,7 +15,7 @@ public interface Constant {
     /**
      * APP目录
      */
-    String APP_ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lu/music";
+    String APP_ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/zhuhuju";
 
     /**
      * 文件存储路径
@@ -24,6 +24,7 @@ public interface Constant {
     String LOG_PATH = APP_ROOT_PATH + "/log";
     String PIC_PATH = APP_ROOT_PATH + "/pic";
     String CACHE_PATH = APP_ROOT_PATH + "/cache";
+    String SERVER_PATH = APP_ROOT_PATH + "/server";
     String FILE_PATH = APP_ROOT_PATH + "/file/";
     String CRASH_PATH = LOG_PATH + "/crash/";
 

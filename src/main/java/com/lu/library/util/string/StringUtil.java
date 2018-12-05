@@ -3,11 +3,20 @@ package com.lu.library.util.string;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
+import java.util.Locale;
 import java.util.Random;
 
 public class StringUtil {
 
 
+	public static String format(String format,Object... args){
+		try {
+			return String.format(Locale.CHINA,format, args);
+		}catch (Exception e){
+			return "";
+		}
+
+	}
 	public static void formatNumber(double d) {
 		final DecimalFormat decimalFormat = new DecimalFormat("#.00");
 		decimalFormat.format(d);
