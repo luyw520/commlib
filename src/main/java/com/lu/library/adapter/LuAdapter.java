@@ -16,6 +16,13 @@ public abstract class LuAdapter<T> extends BaseAdapter{
 		this.datas=datas;
 		this.mItemLayoutId=mItemLayoutId;
 	}
+	public void add(T t){
+		if (datas==null){
+			return;
+		}
+		datas.add(t);
+		notifyDataSetChanged();
+	}
 	@Override
 	public int getCount() {
 		return datas==null?0:datas.size();

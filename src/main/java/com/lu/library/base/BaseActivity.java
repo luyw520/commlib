@@ -35,6 +35,8 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements PermissionUtil.RequsetResult {
 
     protected P mPersenter;
+    protected final static int WRITE_EXTERNAL_STORAGE_REQUEST_CODE=100;
+    protected final static int ACCESS_FINE_LOCATION_REQUEST_CODE=100;
     /**
      * 通用头部辅助类
      */
