@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 public class EventBusHelper {
 
     public static void register(Object o){
+        unregister(o);
         EventBus.getDefault().register(o);
     }
     public static void unregister(Object o){
