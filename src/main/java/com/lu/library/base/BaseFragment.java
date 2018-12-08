@@ -105,7 +105,12 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         mPersenter=autoCreatePresenter();
         if (mPersenter!=null){
             DebugLog.d("attachView "+toString());
-            mPersenter.attachView((IBaseView) this);
+            try {
+                mPersenter.attachView((IBaseView) this);
+            }catch (Exception e){
+
+            }
+
         }
 
     }
