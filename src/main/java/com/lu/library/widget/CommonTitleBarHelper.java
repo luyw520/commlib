@@ -50,6 +50,7 @@ public class CommonTitleBarHelper {
     public static final  int titleId = 0X0001;
     public static final  int rightId = 0X0002;
     public static final  int rightImgId = 0X0003; // 右边第一个image id
+    public static final  int rightImgId2 = 0X0004; // 右边第一个image id
     public static final  int leftStrId = 0X0005; // 左边文字id
     public static final  int rightStrId = 0X0006; // 右边文字id
     public static final  int DEFAULT_LEFT_IMAGE = 0;
@@ -94,6 +95,11 @@ public class CommonTitleBarHelper {
      */
     public static final int STYLE_RIGHT_TEXT=2;
 
+    /**
+     * 带右边的ImageView的布局
+     * 左边一个ImageView,中间一个TextView,右边一个两个ImageView
+     */
+    public static final int STYLE_DOUBLE_RIGHT_IMG=3;
 
 
     /**
@@ -183,6 +189,15 @@ public class CommonTitleBarHelper {
      * @param res
      * @return
      */
+    public CommonTitleBarHelper setRightImg2(int res){
+            ((ImageView) activity.findViewById(rightImgId2)).setImageResource(res);
+        return this;
+    }
+    /**
+     * 设置右边图片资源
+     * @param res
+     * @return
+     */
     public CommonTitleBarHelper setRightText(int res){
         if (hasBar) {
             ((TextView) activity.findViewById(rightStrId)).setText(res);
@@ -197,6 +212,31 @@ public class CommonTitleBarHelper {
     public CommonTitleBarHelper setRightOnClick(View.OnClickListener l){
         if (hasBar && currentStyle!=STYLE_DEFAUL) {
             getTitleLayoutRight(activity).setOnClickListener(l);
+        }
+        return this;
+    }
+    /**
+     * 设置右边图片资源
+     * @param l 监听
+     * @return
+     */
+    public CommonTitleBarHelper setRight1OnClick(View.OnClickListener l){
+        if (hasBar && currentStyle!=STYLE_DEFAUL) {
+            getView(rightImgId).setOnClickListener(l);
+        }
+        return this;
+    }
+    private View getView(int res){
+        return getTitleLayoutAll(activity).findViewById(res);
+    }
+    /**
+     * 设置右边图片资源
+     * @param l 监听
+     * @return
+     */
+    public CommonTitleBarHelper setRight2OnClick(View.OnClickListener l){
+        if (hasBar && currentStyle!=STYLE_DEFAUL) {
+            getView(rightImgId2).setOnClickListener(l);
         }
         return this;
     }
@@ -239,7 +279,12 @@ public class CommonTitleBarHelper {
                 addMidTextView();
                 addRightTextView();
                 break;
-
+            case STYLE_DOUBLE_RIGHT_IMG:
+                addLeftImageView();
+                addMidTextView();
+                addRightImageView();
+                addRightImageView2();
+                break;
         }
         initBar();
         return this;
@@ -565,6 +610,11 @@ public class CommonTitleBarHelper {
     private void addRightImageView(){
         // 左侧的取消按钮
         ImageView leftImg = createImageView(activity,rightImgId,DEFAULT_RIGHT_IMG_RES,DEFAULT_RIGHT_IMG_RES,10,10,10,10);
+        rights.add(leftImg);
+    }
+    private void addRightImageView2(){
+        // 左侧的取消按钮
+        ImageView leftImg = createImageView(activity,rightImgId2,DEFAULT_RIGHT_IMG_RES,DEFAULT_RIGHT_IMG_RES,10,10,10,10);
         rights.add(leftImg);
     }
     private void addMidTextView(){
