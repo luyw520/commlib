@@ -1,10 +1,6 @@
 package com.lu.library.widget.wheel;
 
 /**
- * @author: sslong
- * @package: com.veryfit.
- * @description: ${TODO}{一句话描述该类的作用}
- * @date: 2016/5/18 15:54
  */
 public interface OnWheelChangedListener {
     /**

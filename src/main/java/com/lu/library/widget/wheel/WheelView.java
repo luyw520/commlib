@@ -18,7 +18,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.ido.veryfitpro.R;
+import com.lu.library.R;
+
 
 /**
  * Numeric wheel view.
@@ -66,8 +67,8 @@ public class WheelView extends View {
             mDividerTop = a.getDrawable(R.styleable.WheelView_divider);
             mDividerBottom = a.getDrawable(R.styleable.WheelView_divider);
             if(mDividerTop == null){
-                mDividerTop = getResources().getDrawable(R.drawable.wheelview_divider);
-                mDividerBottom = getResources().getDrawable(R.drawable.wheelview_divider);
+//                mDividerTop = getResources().getDrawable(R.drawable.wheelview_divider);
+//                mDividerBottom = getResources().getDrawable(R.drawable.wheelview_divider);
             }
         }
 
