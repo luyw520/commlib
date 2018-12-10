@@ -18,7 +18,7 @@
         <!--模糊-->
     </style>
 
-    <!--升级dialog-->
+    <!--&lt;!&ndash;升级dialog&ndash;&gt;-->
     <style name="MyDialog" parent="@android:style/Theme.Dialog">
         <!-- 是否有边框 -->
         <item name="android:windowFrame">@null</item>

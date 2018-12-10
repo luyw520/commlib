@@ -321,6 +321,7 @@ public class ScreenUtil {
      * @param activity
      */
     public static void setNavigationBar(Activity activity) {
+        ScreenUtil.setImmersiveStatusBar(activity);
         ViewGroup parentView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);//拿到第一层的content
         if (parentView.getChildAt(0) instanceof ViewGroup) {
 
@@ -333,11 +334,20 @@ public class ScreenUtil {
         }
     }
     /**
+     * 设置沉浸式状态栏
+     */
+    public static void setImmersiveStatusBar(Activity activity) {
+        // 透明状态栏
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
+    /**
      * 设置通用的沉浸式状态栏【带CommonTitle标题栏的Activity】
      *
      * @param activity
      */
     public static void setNavigationBar(Activity activity,int viewId) {
+        ScreenUtil.setImmersiveStatusBar(activity);
+
         ViewGroup parentView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);//拿到第一层的content
 
         ViewGroup childView = parentView.findViewById(viewId);//第二层布局layout

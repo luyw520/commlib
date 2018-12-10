@@ -74,6 +74,15 @@ public class LogUtil {
      * d级别的日志有些手机在logcat里面显示不出来，
      * 故打印的日志改成i级别
      */
+    public static void e(String message) {
+        getMethodNames(new Throwable().getStackTrace(),1);
+        Log.e(className, createLog(message));
+    }
+    /**
+     * 只是在控制台打印日志，不会保存到文件
+     * d级别的日志有些手机在logcat里面显示不出来，
+     * 故打印的日志改成i级别
+     */
     public static void w(String message) {
         getMethodNames(new Throwable().getStackTrace(),1);
         Log.w(className, createLog(message));

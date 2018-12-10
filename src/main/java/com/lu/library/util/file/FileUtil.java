@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +35,42 @@ public class FileUtil {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
+    public static void fileCopy(File in, File out) {
+        FileChannel inChannel = null;
+        FileChannel outChannel = null;
+        try {
+            inChannel = new FileInputStream(in).getChannel();
+            outChannel = new FileOutputStream(out).getChannel();
+            int maxCount = (64 * 1024 * 1024) - (32 * 1024);
+            long size = inChannel.size();
+            long position = 0;
+            while (position < size) {
+                position += inChannel.transferTo(position, maxCount, outChannel);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (inChannel != null) {
+                try {
+                    inChannel.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (outChannel != null) {
+
+                try {
+                    outChannel.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+
+    }
     /**
      * 判断文件是否存在
      *

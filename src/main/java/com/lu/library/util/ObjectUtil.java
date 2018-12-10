@@ -62,5 +62,16 @@ public class ObjectUtil {
         }
         return false;
     }
+    /**
+     * 检测集合是否为空
+     * @param collection
+     * @return
+     */
+    public static boolean isCollectionEmpty(Object collection){
+        if (collection==null){
+            return true;
+        }
+        return false;
+    }
 
 }
