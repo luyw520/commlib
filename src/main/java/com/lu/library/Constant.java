@@ -153,4 +153,12 @@ public interface Constant {
      * 正则：IP地址
      */
     String REGEX_IP = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
+
+    /**
+     * 详情获取数据类型
+     */
+    int DETAIL_TYPE_DAY = 0;
+    int DETAIL_TYPE_WEEK = 1;
+    int DETAIL_TYPE_MONTH = 2;
+    int DETAIL_TYPE_YEAR = 3;
 }

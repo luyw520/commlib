@@ -51,4 +51,12 @@ public abstract class LuAdapter<T> extends BaseAdapter{
 	protected ViewHolder getViewHolder(View convertView, ViewGroup parent, int position){
 		return ViewHolder.get(context, convertView, parent,mItemLayoutId, position);
 	}
+
+    public void setDatas(List<T> alarms) {
+		if (datas==null){
+			return;
+		}
+		datas.addAll(alarms);
+		notifyDataSetChanged();
+    }
 }

@@ -3,6 +3,7 @@ package com.lu.library.util.image;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -31,7 +32,62 @@ public class BitmapUtil {
     private BitmapUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
+    /**
+     * 从文件读取方式一：获取缩放后的本地图片【不建议使用，效率低】
+     *
+     * @param filePath 文件路径
+     * @param width    宽
+     * @param height   高
+     * @return
+     */
+    public static Bitmap readBitmapFromFile(String filePath, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+        float srcWidth = options.outWidth;
+        float srcHeight = options.outHeight;
+        int inSampleSize = 1;
 
+        if (srcHeight > height || srcWidth > width) {
+            if (srcWidth > srcHeight) {
+                inSampleSize = Math.round(srcHeight / height);
+            } else {
+                inSampleSize = Math.round(srcWidth / width);
+            }
+        }
+
+        options.inJustDecodeBounds = false;
+        options.inSampleSize = inSampleSize;
+
+        return BitmapFactory.decodeFile(filePath, options);
+    }
+    /**
+     * 从二进制数据读取图片：获取缩放后的本地图片
+     *
+     * @param data
+     * @param width
+     * @param height
+     * @return
+     */
+    public static Bitmap readBitmapFromByteArray(byte[] data, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        float srcWidth = options.outWidth;
+        float srcHeight = options.outHeight;
+        int inSampleSize = 1;
+
+        if (srcHeight > height || srcWidth > width) {
+            if (srcWidth > srcHeight) {
+                inSampleSize = Math.round(srcHeight / height);
+            } else {
+                inSampleSize = Math.round(srcWidth / width);
+            }
+        }
+        options.inJustDecodeBounds = false;
+        options.inSampleSize = inSampleSize;
+        return BitmapFactory.decodeByteArray(data, 0, data.length, options);
+    }
     /**
      * 得到bitmap的大小
      * 单位KB

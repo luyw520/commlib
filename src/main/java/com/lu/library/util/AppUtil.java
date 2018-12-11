@@ -21,7 +21,14 @@ import java.util.Locale;
  * @date: 2016/11/22 15:33
  */
 public class AppUtil {
-
+    public static int getAppMaxMemory(){
+        Runtime rt=Runtime.getRuntime();
+        long maxMemory=rt.maxMemory();
+//        log.i());
+//        tvMsg.setText("maxMemory:"+Long.toString(maxMemory/(1024*1024))+"MB");
+        int mb= (int) (maxMemory/(1024*1024));
+        return mb;
+    }
     /**
      * 返回Manifest指定meta-data值
      * @param context 全局context
