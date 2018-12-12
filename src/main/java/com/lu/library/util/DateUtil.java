@@ -19,6 +19,53 @@ public class DateUtil {
         SimpleDateFormat format=new SimpleDateFormat(pattern);
         return format.format(new Date());
     }
+    /**
+     * 根据索引值获取当周的开始日期
+     *
+     * @param index        索引值
+     * @param weekStartDay 星期开始日
+     * @return
+     */
+    public static Date getStartdayThisWeek(int index, int weekStartDay) {
+        Calendar c = Calendar.getInstance();
+        int firstDayOfWeek = 0;
+        if (weekStartDay == 0) {
+            firstDayOfWeek = -1;
+        } else if (weekStartDay == 1) {
+            firstDayOfWeek = 0;
+        } else if (weekStartDay == 2) {
+            firstDayOfWeek = 1;
+        }
+        int day_of_week = c.get(Calendar.DAY_OF_WEEK) - firstDayOfWeek;
+        int offDay = -day_of_week + 1;
+        System.out.println("getStartdayThisWeek day_of_week:" + day_of_week + ",offDay:" + offDay);
+        if (offDay > 0) {
+            offDay = offDay - 7;
+        }
+        if (offDay <= -7) {
+            offDay = 0;
+        }
+        System.out.println("getStartdayThisWeek 往前推....:" + day_of_week + ",offDay....:" + offDay);
+        c.add(Calendar.DATE, offDay + 7 * index);
+
+        return (c.getTime());
+
+    }
+    /**
+     * 计算某年某月有多少天
+     *
+     * @param year  年
+     * @param month 月
+     * @return
+     */
+    public static int dayOfMonth(int year, int month) {
+        int[] monthDay = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+            monthDay[1]++;
+        }
+        return monthDay[month];
+    }
+
     public static long getLongFromDateStr(String currentTimeMillis) {
         try {
             return simpleDateFormat.parse(currentTimeMillis).getTime();

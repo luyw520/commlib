@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
  * 子类如果有多个泛型，则第一个泛型必须是BasePresenter的子类
  */
 
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements PermissionUtil.RequsetResult {
+public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements PermissionUtil.RequsetResult,IBaseView {
 
     protected P mPersenter;
     protected final static int WRITE_EXTERNAL_STORAGE_REQUEST_CODE=100;
