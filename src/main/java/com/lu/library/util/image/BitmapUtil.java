@@ -6,6 +6,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -86,16 +87,31 @@ public class BitmapUtil {
         }
         options.inJustDecodeBounds = false;
         options.inSampleSize = inSampleSize;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
         return BitmapFactory.decodeByteArray(data, 0, data.length, options);
     }
     /**
      * 得到bitmap的大小
      * 单位KB
      */
-    public static int getBitmapSize(Bitmap bitmap) {
-        //API 19
-        return bitmap.getAllocationByteCount()/1024;
+//    public static int getBitmapSize(Bitmap bitmap) {
+//        //API 19
+//        return bitmap.getAllocationByteCount()/1024;
+//
+//    }
 
+    /**
+     * 得到bitmap的大小
+     */
+    public static int getBitmapSize(Bitmap bitmap) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {    //API 19
+            return bitmap.getAllocationByteCount()/1024/1024;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {//API 12
+            return bitmap.getByteCount()/1024/1024;
+        }
+        // 在低版本中用一行的字节x高度
+        return bitmap.getRowBytes() * bitmap.getHeight()/1024/1024;                //earlier version
     }
     /**
      * 组装地图截图和其他View截图，需要注意的是目前提供的方法限定为MapView与其他View在同一个ViewGroup下
