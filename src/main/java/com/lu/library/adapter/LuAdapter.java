@@ -56,7 +56,7 @@ public abstract class LuAdapter<T> extends BaseAdapter{
 		if (datas==null){
 			return;
 		}
-		datas.addAll(alarms);
+		datas=alarms;
 		notifyDataSetChanged();
     }
 }

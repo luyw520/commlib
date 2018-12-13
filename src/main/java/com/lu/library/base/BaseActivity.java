@@ -1,5 +1,6 @@
 package com.lu.library.base;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,12 +43,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      */
     protected CommonTitleBarHelper commonTitleBarHelper;
     private PermissionUtil permissionUtil;
+    protected Activity activity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
 
         setContentView(getLayoutResID());
+        activity=this;
         ButterKnife.bind(this);
         EventBusHelper.register(this);
         initPresenter();
