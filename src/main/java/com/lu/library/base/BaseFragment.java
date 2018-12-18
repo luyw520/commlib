@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
  *
  *子类如果有多个泛型，则第一个泛型必须是BasePresenter的子类
  **/
-public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements PermissionUtil.RequsetResult{
+public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements PermissionUtil.RequsetResult,IBaseView{
     protected FragmentActivity mActivity;
     protected View mRootView;
     protected P mPersenter;
