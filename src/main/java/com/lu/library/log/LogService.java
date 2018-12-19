@@ -25,10 +25,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * @author: zhouzj
- * @date: 2017/11/2 15:11
- * 日志输出工具，
- * !!!!!!!!!注意：只有P，E级别的输出，才会保存到文件!!!!!!!!!!
  */
 public class LogService {
     private static final String FILE_NAME_PATTERN = "yyyyMMdd";
@@ -173,17 +169,15 @@ public class LogService {
             return;
         }
 
-        if((!TextUtils.isEmpty(tag)) && (tag.length() < 20)) {
-            for(int i = tag.length(); i < 20; i ++) {
-                tag = tag + " ";
-            }
-        }
+//        if((!TextUtils.isEmpty(tag)) && (tag.length() < 20)) {
+//            for(int i = tag.length(); i < 20; i ++) {
+//                tag = tag + " ";
+//            }
+//        }
 
         StringBuilder builder = new StringBuilder();
         String needWriteMessage =
-                builder.append(logLevel)
-                        .append("    [").append(getLogTimeString()).append("]    ")
-                        .append("    [").append(tag).append("]    ")
+                builder.append("[").append(getLogTimeString()).append("]")
                         .append(text)
                         .append(LINE_SEP)
                         .toString();
@@ -198,7 +192,7 @@ public class LogService {
     }
 
     private String getLogPathSdcardDir() {
-        return null;
+        return "123";
     }
 
     private void writeToFile(String dirPath, String log) {
