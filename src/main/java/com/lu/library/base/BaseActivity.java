@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 
+import com.baidu.mobstat.StatService;
 import com.lu.library.util.EventBusHelper;
 import com.lu.library.util.NetUtil;
 import com.lu.library.util.ObjectUtil;
@@ -243,6 +244,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      * @param label   事件标签
      */
     protected void setBaiduStat(String eventId, String label) {
-//        StatService.onEvent(this, eventId, label);
+        StatService.onEvent(this, eventId, label);
     }
 }

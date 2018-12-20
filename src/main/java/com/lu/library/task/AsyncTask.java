@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @package: com.ido.veryfitpro.common.task
  * @description: ${TODO}{ 串行的任务}
  * @date: 2018/9/18 0018
+ * @see RunTask
  */
 public class AsyncTask {
 
@@ -75,19 +76,26 @@ public class AsyncTask {
                         r.run();
                     } finally {
 
-//                        LogUtil.d(Thread.currentThread().getName()+",........."+mTasks.size());
+                        LogUtil.d(Thread.currentThread().getName()+",........."+mTasks.size());
                         //最后一个不用等待了....
                         if (mTasks.isEmpty()){
-                           return;
+                            scheduleNext();
+                            return;
                         }
                         if (r instanceof RunTask){
                             RunTask runTask= (RunTask) r;
-//                            LogUtil.d(Thread.currentThread().getName()+",........."+runTask.mCount.get());
-                           for(;;){
+                            LogUtil.d(Thread.currentThread().getName()+",........."+runTask.mCount.get());
+                            for(;;){
 //                               LogUtil.d(Thread.currentThread().getName()+",wait........."+runTask.mCount.get());
-                               if (runTask.isExeRunFinish())
-                                   break;
-                           }
+                                if (runTask.isExeRunFinish()) {
+                                    break;
+                                }
+                                try {
+                                    Thread.sleep(10);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
 
                         scheduleNext();
@@ -95,7 +103,7 @@ public class AsyncTask {
                     }
                 }
             });
-//            LogUtil.d("add Runnable....mTasks:"+mTasks.size());
+            LogUtil.d("add Runnable....mTasks:"+mTasks.size());
             if (mActive == null) {
                 scheduleNext();
             }
@@ -109,7 +117,7 @@ public class AsyncTask {
         }
     }
     public <Params> AsyncTask execute(RunTask<Params> runTask,Params params){
-        runTask.onPreExecute(params);
+        runTask.setData(params);
         sDefaultExecutor.execute(runTask);
         return this;
     }
