@@ -5,6 +5,7 @@
     android:layout_height="@dimen/common_tittle_height"
     android:baselineAligned="false"
     android:minHeight="60dp"
+    android:background="@color/main_title_bg_color"
     android:orientation="horizontal">
 
     <LinearLayout

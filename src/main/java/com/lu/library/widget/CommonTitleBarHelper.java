@@ -115,7 +115,7 @@ public class CommonTitleBarHelper {
     /**
      * 标题栏默认背景
      */
-    private static final int DEFAULT_BG_RES=R.drawable.scan_device_bg;
+//    private static final int DEFAULT_BG_RES=R.drawable.scan_device_bg;
 
     public boolean isHasBar() {
         return hasBar;
@@ -408,7 +408,7 @@ public class CommonTitleBarHelper {
                 rightLayout.addView(view);
             }
         }
-        setBarBackground(DEFAULT_BG_RES);
+//        setBarBackgroundColor(R.color.main_title_bg_color);
     }
     /**
      * 方法10：标题栏最基础添加方法
@@ -435,7 +435,7 @@ public class CommonTitleBarHelper {
                 rightLayout.addView(view);
             }
         }
-        setBarBackground(DEFAULT_BG_RES);
+//        setBarBackgroundColor(R.color.main_title_bg_color);
     }
     private ImageButton createImageButton(int id,int imageResource){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -535,6 +535,14 @@ public class CommonTitleBarHelper {
         findViewById(activity,R.id.layout_parent).setBackgroundResource(backgroundRes);
         return this;
     }
+    /**
+     * ：设置整个标题栏的背景
+     * @param backgroundRes 背景资源文件
+     */
+//    public  CommonTitleBarHelper setBarBackgroundColor(int backgroundRes) {
+//        findViewById(activity,R.id.layout_parent).setBackgroundColor(backgroundRes);
+//        return this;
+//    }
 
 
     private  ImageView createImageView(Activity activity,int id,int leftImage,int defaltRes){

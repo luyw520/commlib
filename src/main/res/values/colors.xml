@@ -10,4 +10,6 @@
     <color name="photo_text_color">#333333</color>
 
     <color name="item_text_color">#B1B1B1</color>
+
+    <color name="main_title_bg_color">#60DBCF</color>
 </resources>
