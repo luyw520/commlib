@@ -30,6 +30,29 @@ public class AppUtil {
         return mb;
     }
     /**
+     * 判断服务是否开启
+     */
+    public static boolean isServiceRunning(Context context, String proServiceName) {
+//        final String proServiceName = "com.veryfit2hr.second.ui.services.IntelligentNotificationService";
+        ActivityManager manager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager == null) {
+            return false;
+        }
+        List<ActivityManager.RunningServiceInfo> runningService = manager
+                .getRunningServices(300);
+        if (runningService == null) {
+            return false;
+        }
+        for (int i = 0; i < runningService.size(); i++) {
+            if (runningService.get(i).service.getClassName()
+                    .equals(proServiceName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
      * 返回Manifest指定meta-data值
      * @param context 全局context
      * @param key meta-data key

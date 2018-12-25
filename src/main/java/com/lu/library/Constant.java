@@ -27,6 +27,7 @@ public interface Constant {
     String SERVER_PATH = APP_ROOT_PATH + "/server";
     String FILE_PATH = APP_ROOT_PATH + "/file/";
     String CRASH_PATH = LOG_PATH + "/crash/";
+    String UPDATE_PATH = LOG_PATH + "/deivce_update/";
 
 
     String SHARE_SDK_API_KEY="";
