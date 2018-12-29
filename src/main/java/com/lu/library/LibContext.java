@@ -4,9 +4,7 @@ import android.content.Context;
 import android.os.StrictMode;
 
 import com.facebook.stetho.Stetho;
-import com.lu.library.log.LogUtil;
 import com.lu.library.monitor.BlockDetectByPrinter;
-import com.lu.library.util.CrashHandlerUtil;
 
 /**
  * Created by lyw.
@@ -35,12 +33,12 @@ public class LibContext {
      * 初始化捕获日志辅助类
      */
     public void initCrashHandler(String dir) {
-        LogUtil.d("BuildConfig.DEBUG:"+BuildConfig.DEBUG);
+//        LogUtil.d("BuildConfig.DEBUG:"+BuildConfig.DEBUG);
         //正式版才采用crash
-        if (!BuildConfig.DEBUG){
-            CrashHandlerUtil.getInstance().init(context);
-            CrashHandlerUtil.getInstance().setCrashDir(dir);
-        }
+//        if (!BuildConfig.DEBUG){
+//            CrashHandlerUtil.getInstance().init(context);
+//            CrashHandlerUtil.getInstance().setCrashDir(dir);
+//        }
 
     }
     private void initFacebook() {
