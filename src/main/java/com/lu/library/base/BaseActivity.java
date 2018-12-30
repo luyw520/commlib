@@ -27,10 +27,6 @@ import butterknife.ButterKnife;
 /**
  * Created by lyw.
  *
- * @author: lyw
- * @package: com.ido.veryfitpro.base
- * @description: ${TODO}{ 所有Activity的超类}
- * @date: 2018/7/16 0016
  * 子类如果有多个泛型，则第一个泛型必须是BasePresenter的子类
  */
 
