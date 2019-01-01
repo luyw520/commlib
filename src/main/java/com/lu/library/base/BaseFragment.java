@@ -144,7 +144,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     }
 
     @Subscribe(threadMode= ThreadMode.MAIN)
-    public void handleMessageInner(BaseMessage message){
+    public  void handleMessageInner(BaseMessage message){
         handleMessage(message);
     }
 
