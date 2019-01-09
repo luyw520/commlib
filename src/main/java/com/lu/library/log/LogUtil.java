@@ -34,8 +34,11 @@ public class LogUtil {
     /**
      * 只是在控制台打印日志，不会保存到文件
      */
-    public static void d(String tag, String text){
-        Log.d(tag, text);
+    public static void d(String message, String dirPath){
+        getMethodNames(new Throwable().getStackTrace(),1);
+        String log=createLog(message);
+        LogService.p(dirPath, "dAndSave", log);
+        Log.i(className, log);
     }
 
     /**
