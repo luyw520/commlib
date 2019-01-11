@@ -19,6 +19,9 @@ public class DateUtil {
         SimpleDateFormat format=new SimpleDateFormat(pattern);
         return format.format(new Date());
     }
+    public static String format(int year, int mouth, int day) {
+        return year + "-" + String.format("%02d", mouth) + "-" + String.format("%02d", day);
+    }
     /**
      * 根据索引值获取当周的开始日期
      *

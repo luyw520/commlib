@@ -3,6 +3,8 @@ package com.lu.library.util;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -97,6 +99,40 @@ public class GsonUtil {
             return null;
         }
 
+    }
+
+    /**
+     * @param gsonStr json字符串
+     * @param clazz   返回的类型
+     * @param <T>
+     * @return 解析错误返回null
+     */
+    public static <T> T fromJson(String gsonStr, Class<T> clazz, Class<?> typeClazz) {
+        Gson gson = new Gson();
+        try {
+            Type objectType = type(clazz, typeClazz);
+            return gson.fromJson(gsonStr, objectType);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    static ParameterizedType type(final Class raw, final Type... args) {
+        return new ParameterizedType() {
+            public Type getRawType() {
+                return raw;
+            }
+
+            public Type[] getActualTypeArguments() {
+                return args;
+            }
+
+            public Type getOwnerType() {
+                return null;
+            }
+        };
     }
 
 }

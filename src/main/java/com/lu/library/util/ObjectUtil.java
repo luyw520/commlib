@@ -39,6 +39,27 @@ public class ObjectUtil {
         return null;
 
     }
+    public static Class<?> getParameterizedType(Class<?> clazz,boolean isInterface){
+        //返回表示此 Class 所表示的实体类的 直接父类 的 Type。注意，是直接父类
+        Type type = clazz.getGenericSuperclass();
+        try {
+            if (isInterface) {
+                type = clazz.getGenericInterfaces()[0];
+            }
+            // 判断 是否泛型
+            if (type instanceof ParameterizedType) {
+                // 返回表示此类型实际类型参数的Type对象的数组.
+                // 当有多个泛型类时，数组的长度就不是1了
+                Type[] ptype = ((ParameterizedType) type).getActualTypeArguments();
+                Class<?> c = (Class) ptype[0];
+                return c;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     public static <T> T checkNotNull(T obj) {
         if(obj == null) {
