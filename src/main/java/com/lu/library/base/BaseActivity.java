@@ -96,7 +96,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         ScreenUtil.setNavigationBar(this);
     }
     @Subscribe(threadMode=ThreadMode.MAIN)
-    public void handleMessageInner(BaseMessage message){
+    public final void handleMessageInner(BaseMessage message){
         handleMessage(message);
     }
 
@@ -122,6 +122,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
 
     }
+    /**
+     * 检测权限，如果返回true,有权限 false 无权限
+     * @param permissions 权限
+     * @return 是否有权限
+     */
     public boolean checkSelfPermission(String... permissions){
         return PermissionUtil.checkSelfPermission(permissions);
     }

@@ -539,6 +539,14 @@ public class CommonTitleBarHelper {
      * ：设置整个标题栏的背景
      * @param backgroundRes 背景资源文件
      */
+    public  CommonTitleBarHelper setBackgroundColor(int backgroundRes) {
+        findViewById(activity,R.id.layout_parent).setBackgroundColor(backgroundRes);
+        return this;
+    }
+    /**
+     * ：设置整个标题栏的背景
+     * @param backgroundRes 背景资源文件
+     */
 //    public  CommonTitleBarHelper setBarBackgroundColor(int backgroundRes) {
 //        findViewById(activity,R.id.layout_parent).setBackgroundColor(backgroundRes);
 //        return this;
