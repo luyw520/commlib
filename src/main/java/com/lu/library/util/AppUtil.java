@@ -1,19 +1,29 @@
 package com.lu.library.util;
 
 import android.app.ActivityManager;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
+import android.os.PowerManager;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.telephony.TelephonyManager;
 
 import com.lu.library.LibContext;
+import com.lu.library.log.DebugLog;
 import com.lu.library.log.LogUtil;
 
 import java.util.List;
 import java.util.Locale;
+
+import static android.content.Context.POWER_SERVICE;
 
 /**
  * @author: lyw
@@ -29,6 +39,40 @@ public class AppUtil {
         int mb= (int) (maxMemory/(1024*1024));
         return mb;
     }
+    /**
+     * 忽略优化电池，系统大于6.0以上
+     *
+     * @param context
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void ignoreBatteryOptimization(Context context) {
+
+        PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
+
+        boolean hasIgnored = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
+        //  判断当前APP是否有加入电池优化的白名单，如果没有，弹出加入电池优化的白名单的设置对话框。
+        if (!hasIgnored) {
+            Intent intent = null;
+            if ("Huawei".equals(android.os.Build.BRAND)) {
+                intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                // 设置ComponentName参数1:packagename参数2:Activity路径
+                ComponentName cn = new ComponentName("com.android.settings", "com.android.com.settings.Settings@HighPowerApplicationsActivity");
+                intent.setComponent(cn);
+                context.startActivity(intent);
+            } else {
+                intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + context.getPackageName()));
+                try {
+                    context.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            DebugLog.i(" getModel " + Build.MODEL + " getBrand " + android.os.Build.BRAND);
+        }
+    }
+
     /**
      * 判断服务是否开启
      */

@@ -23,6 +23,51 @@ public class DateUtil {
         return year + "-" + String.format("%02d", mouth) + "-" + String.format("%02d", day);
     }
     /**
+     * @param date 20171222171727
+     * @return 2017-12-22 17:17:27
+     */
+    public static String formatDateLongToStr(long date) {
+        String ymd = date + "";
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMddHHmmss");
+            ymd = format.format(format1.parse(ymd));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ymd;
+    }
+
+    /**
+     * 把单位为分钟的时间解析成字符串
+     *
+     * @param min 64 单位分钟
+     * @return 01:04:00
+     */
+    public static String minFormatStr(int min) {
+        return secondFormatStr(min * 60);
+    }
+
+    /**
+     * 把单位为秒的时间解析成字符串
+     *
+     * @param second 64 单位秒
+     * @return 00:01:04
+     */
+    public static String secondFormatStr(int second) {
+        StringBuffer stringBuffer = new StringBuffer();
+        int h = second / 60 / 60;
+//        int m=Math.max(0,second-60*60);
+
+        stringBuffer.append(String.format("%02d", h));
+        stringBuffer.append(":");
+        stringBuffer.append(String.format("%02d", second / 60 - h * 60));
+        stringBuffer.append(":");
+        stringBuffer.append(String.format("%02d", second % 60));
+        return stringBuffer.toString();
+    }
+    /**
      * 根据索引值获取当周的开始日期
      *
      * @param index        索引值
