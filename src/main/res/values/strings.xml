@@ -3,7 +3,6 @@
     <string name="dialog_cancel">取消</string>
     <string name="dialog_ok">确定</string>
 
-    <string name="remove_photo">移除照片</string>
     <!-- <string name="choise_photo">选择现有照片</string> -->
     <string name="choise_photo">相册</string>
     <string name="take_photo">拍照</string>

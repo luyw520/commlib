@@ -1,14 +1,4 @@
 apply plugin: 'com.android.library'
-//apply plugin:'maven'
-//apply plugin: 'com.novoda.bintray-release'
-//publish {
-//    userOrg = 'LYW'//bintray.com用户名
-//    groupId = 'com.helloandroid'//jcenter上的路径
-//    artifactId = 'lulibrary'//项目名称
-//    publishVersion = '1.0.0'//版本号
-//    desc = 'this is for test'//描述，不重要
-//    website = 'https://github.com/kuyue'//网站，最好有，不重要
-//}
 android {
     compileSdkVersion Integer.valueOf(project.compileSdkVersion)
     buildToolsVersion project.buildToolsVersion
@@ -43,6 +33,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.facebook.stetho:stetho:1.5.0'
+//    compile 'com.zhy:autolayout:1.4.3'
 
     //测试框架
 
