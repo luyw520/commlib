@@ -545,7 +545,7 @@ public class NewWheelView  extends View {
 
         for (int i = currentItem - addItems; i <= currentItem + addItems; i++) {
             if (useCurrentValue || i != currentItem) {
-                DebugLog.d("type=" + type);
+//                DebugLog.d("type=" + type);
                 String text="";
                 if(type.equals("public")){
                     text = getTextItem(i);
