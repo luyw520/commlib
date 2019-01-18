@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 public abstract class LuAdapter<T> extends BaseAdapter{
-	private Context context;
-	private List<T> datas;
+	protected Context context;
+	protected List<T> datas;
 	private final int mItemLayoutId;
 	public LuAdapter(Context context,List<T> datas,int mItemLayoutId){
 		this.context=context;

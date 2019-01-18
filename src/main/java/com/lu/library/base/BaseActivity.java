@@ -41,6 +41,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected CommonTitleBarHelper commonTitleBarHelper;
     private PermissionUtil permissionUtil;
     protected Activity activity;
+    protected Activity mActivity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -48,6 +49,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
         setContentView(getLayoutResID());
         activity=this;
+        mActivity=this;
         ButterKnife.bind(this);
         EventBusHelper.register(this);
         initPresenter();

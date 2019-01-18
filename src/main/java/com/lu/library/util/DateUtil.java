@@ -19,6 +19,38 @@ public class DateUtil {
         SimpleDateFormat format=new SimpleDateFormat(pattern);
         return format.format(new Date());
     }
+    public static String format(SimpleDateFormat dateFormat, Date date) {
+        return dateFormat.format(date);
+    }
+
+    public static String getDay() {
+        calendar = Calendar.getInstance();
+        final StringBuffer buffer = new StringBuffer();
+
+        final int year = calendar.get(Calendar.YEAR);
+        if (year < 10) {
+            buffer.append("0" + year);
+        } else {
+            buffer.append(String.valueOf(year));
+        }
+        buffer.append("-");
+        final int mouth = (calendar.get(Calendar.MONTH) + 1);
+        if (mouth < 10) {
+            buffer.append("0" + mouth);
+        } else {
+            buffer.append(String.valueOf(mouth));
+        }
+        buffer.append("-");
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        if (day < 10) {
+            buffer.append("0" + day);
+        } else {
+            buffer.append(String.valueOf(day));
+        }
+
+        return new String(buffer);
+    }
+
     public static String format(int year, int mouth, int day) {
         return year + "-" + String.format("%02d", mouth) + "-" + String.format("%02d", day);
     }
