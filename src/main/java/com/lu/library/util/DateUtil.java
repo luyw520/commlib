@@ -149,7 +149,7 @@ public class DateUtil {
     public static long getLongFromDateStr(String currentTimeMillis) {
         try {
             return simpleDateFormat.parse(currentTimeMillis).getTime();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
