@@ -1,5 +1,7 @@
 package com.lu.library.util;
 
+import android.text.TextUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -148,6 +150,7 @@ public class DateUtil {
 
     public static long getLongFromDateStr(String currentTimeMillis) {
         try {
+            if(TextUtils.isEmpty(currentTimeMillis)) return  System.currentTimeMillis();
             return simpleDateFormat.parse(currentTimeMillis).getTime();
         } catch (Exception e) {
             e.printStackTrace();
