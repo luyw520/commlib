@@ -1,9 +1,14 @@
 package com.lu.library.util;
 
 import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lu.library.LibContext;
+import com.lu.library.R;
 import com.lu.library.task.MainThread;
 
 
@@ -15,6 +20,7 @@ public class ToastUtil {
 
     private static Toast mToast = null;
     private static long mLastTime = 0L;
+    static Toast customToast;
 
     /**
      * 防止Toast重复弹出
@@ -26,6 +32,27 @@ public class ToastUtil {
     public static void showToast(final Context context,final int resid,final int duration) {
        showToast(context,context.getResources().getString(resid),duration);
 
+    }
+    public static void showCustomToast(final Context context, final String msg) {
+        ThreadUtil.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                View v = LayoutInflater.from(context).inflate(R.layout.toast_layout, null);
+                final TextView textView = v.findViewById(R.id.toastContent);
+                textView.setText(msg);
+                if(mToast!=null){
+                    mToast.cancel();
+                }
+                if(customToast != null){
+                    customToast.cancel();
+                }
+                customToast = new Toast(context);
+                customToast.setGravity(Gravity.CENTER, 0, 0);
+                customToast.setView(v);
+                customToast.setDuration(Toast.LENGTH_SHORT);
+                customToast.show();
+            }
+        });
     }
     /**
      * 防止Toast重复弹出
