@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 
 /**
  */
-@Retention(RetentionPolicy.CLASS)
-@Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
-public @interface DebugTrace {}
+//@Retention(RetentionPolicy.CLASS)
+//@Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
+//public @interface DebugTrace {}

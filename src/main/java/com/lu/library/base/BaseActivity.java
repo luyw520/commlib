@@ -1,7 +1,10 @@
 package com.lu.library.base;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -9,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.baidu.mobstat.StatService;
@@ -64,12 +68,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
 
     }
-    /**
-     * 获取编辑框的内容（去除两边空格）
-     *
-     * @param editText
-     * @return
-     */
+
+
+        /**
+         * 获取编辑框的内容（去除两边空格）
+         *
+         * @param editText
+         * @return
+         */
     public String getEditTextStr(EditText editText) {
         return editText.getText().toString().trim();
     }

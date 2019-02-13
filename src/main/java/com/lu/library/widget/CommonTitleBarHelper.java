@@ -194,6 +194,15 @@ public class CommonTitleBarHelper {
         return this;
     }
     /**
+     * 设置左边图片资源
+     * @param res
+     * @return
+     */
+    public CommonTitleBarHelper setLeftImg(int res){
+            ((ImageView) activity.findViewById(leftStrId)).setImageResource(res);
+        return this;
+    }
+    /**
      * 设置右边图片资源
      * @param res
      * @return
@@ -543,14 +552,6 @@ public class CommonTitleBarHelper {
         findViewById(activity,R.id.layout_parent).setBackgroundColor(backgroundRes);
         return this;
     }
-    /**
-     * ：设置整个标题栏的背景
-     * @param backgroundRes 背景资源文件
-     */
-//    public  CommonTitleBarHelper setBarBackgroundColor(int backgroundRes) {
-//        findViewById(activity,R.id.layout_parent).setBackgroundColor(backgroundRes);
-//        return this;
-//    }
 
 
     private  ImageView createImageView(Activity activity,int id,int leftImage,int defaltRes){
