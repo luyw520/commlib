@@ -15,7 +15,7 @@ public interface Constant {
     /**
      * APP目录
      */
-    String APP_ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/zhuhuju";
+    String APP_ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/zhihuiju";
 
     /**
      * 文件存储路径
