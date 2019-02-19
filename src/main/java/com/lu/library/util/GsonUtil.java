@@ -1,5 +1,7 @@
 package com.lu.library.util;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -71,6 +73,9 @@ public class GsonUtil {
     public static <T> T fromJsonToCollect(String jsonString) {
         T result = null;
         Gson gson = new Gson();
+        if (TextUtils.isEmpty(jsonString)){
+            return null;
+        }
         try {
             result = gson.fromJson(jsonString, new TypeToken<T>() {
             }.getType());
