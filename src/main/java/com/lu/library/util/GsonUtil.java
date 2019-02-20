@@ -46,7 +46,19 @@ public class GsonUtil {
      */
     public static <T> List<T> fromJson2List(String jsonString) {
 
-        return fromJsonToCollect(jsonString);
+        List<T> result = null;
+        Gson gson = new Gson();
+        if (TextUtils.isEmpty(jsonString)){
+            return null;
+        }
+        try {
+            result = gson.fromJson(jsonString, new TypeToken<List<T>>() {
+            }.getType());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return result;
     }
     /**
      *gson字符串转换为Map集合
