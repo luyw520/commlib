@@ -1,9 +1,9 @@
 package com.lu.library.base;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.baidu.mobstat.StatService;
@@ -68,8 +67,30 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
 
     }
+    //字体不随着系统的字体而变化
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (newConfig.fontScale != 1)
+            getResources();
+        super.onConfigurationChanged(newConfig);
+    }
 
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        if (res.getConfiguration().fontScale != 1) {
+            Configuration newConfig = new Configuration();
+            newConfig.setToDefaults();
 
+            res.updateConfiguration(newConfig, res.getDisplayMetrics());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                createConfigurationContext(newConfig);
+            } else {
+                res.updateConfiguration(newConfig, res.getDisplayMetrics());
+            }
+        }
+        return res;
+    }
         /**
          * 获取编辑框的内容（去除两边空格）
          *
