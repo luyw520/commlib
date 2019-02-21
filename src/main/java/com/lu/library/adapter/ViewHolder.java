@@ -124,6 +124,10 @@ public class ViewHolder
         TextView textView=getView(viewId);
         textView.setText(value);
     }
+    public void setString(int viewId,int value){
+        TextView textView=getView(viewId);
+        textView.setText(value);
+    }
     public ViewHolder setImageDrawable(int viewId, Drawable drawable)
     {
         ImageView view = getView(viewId);
