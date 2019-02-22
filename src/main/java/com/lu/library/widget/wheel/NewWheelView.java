@@ -156,7 +156,7 @@ public class NewWheelView  extends View {
         super(context, attrs, defStyle);
         initData(context);
     }
-
+    public int scale=1;
     /**
      * Constructor
      */
