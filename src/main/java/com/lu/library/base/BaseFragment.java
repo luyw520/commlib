@@ -134,6 +134,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         initView();
         initData();
         HookClickListenerHelper.hookViewGroup((ViewGroup) mRootView);
+        mRootView.setClickable(true);
         return mRootView;
     }
 
