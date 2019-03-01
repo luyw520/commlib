@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lu.library.log.DebugLog;
+import com.lu.library.log.LogUtil;
 import com.lu.library.util.EventBusHelper;
 import com.lu.library.util.HookClickListenerHelper;
 import com.lu.library.util.ObjectUtil;
@@ -41,6 +42,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     }
     protected boolean isHidden=false;
     private PermissionUtil permissionUtil;
+    public String tag;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -131,6 +133,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         initPresenter();
         permissionUtil=new PermissionUtil();
         permissionUtil.setRequsetResult(this);
+        tag=getClass().getSimpleName();
+        LogUtil.d("tag:"+tag);
         initView();
         initData();
         HookClickListenerHelper.hookViewGroup((ViewGroup) mRootView);
