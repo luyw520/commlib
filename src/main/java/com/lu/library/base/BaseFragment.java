@@ -53,8 +53,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         isHidden=hidden;
+        DebugLog.d("onVisiable:"+toString());
         if (!hidden){
-            DebugLog.d("onVisiable:"+toString());
             onVisiable();
         }else{
             oninVisiable();
@@ -64,9 +64,11 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Override
     public void onStop() {
         super.onStop();
-        if (isHidden){
+        LogUtil.d("onStop....");
+        isHidden=true;
+//        if (isHidden){
             oninVisiable();
-        }
+//        }
     }
     public boolean checkSelfPermission(String... permissions){
         return PermissionUtil.checkSelfPermission(permissions);
