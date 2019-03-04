@@ -65,10 +65,10 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onStop() {
         super.onStop();
         LogUtil.d("onStop....");
-        isHidden=true;
-//        if (isHidden){
+//        isHidden=true;
+        if (isHidden){
             oninVisiable();
-//        }
+        }
     }
     public boolean checkSelfPermission(String... permissions){
         return PermissionUtil.checkSelfPermission(permissions);
