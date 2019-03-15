@@ -64,7 +64,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Override
     public void onStop() {
         super.onStop();
-        LogUtil.d("onStop....");
+        LogUtil.d("onStop...."+toString());
 //        isHidden=true;
         if (isHidden){
             oninVisiable();
