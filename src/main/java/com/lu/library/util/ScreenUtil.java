@@ -17,6 +17,7 @@ import android.util.TypedValue;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -323,17 +324,29 @@ public class ScreenUtil {
      *
      * @param activity
      */
-    public static void setNavigationBar(Activity activity) {
+    public static void setNavigationBar(final Activity activity) {
         ScreenUtil.setImmersiveStatusBar(activity);
         ViewGroup parentView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);//拿到第一层的content
         if (parentView.getChildAt(0) instanceof ViewGroup) {
 
-            ViewGroup childView = (ViewGroup) parentView.getChildAt(0);//第二层布局layout
+            final ViewGroup childView = (ViewGroup) parentView.getChildAt(0);//第二层布局layout
             childView.setFitsSystemWindows(true);
             childView.setClipToPadding(true);
-            ViewGroup.LayoutParams layoutParams = childView.getLayoutParams();
-            layoutParams.height=(int) (getStatusBarHeight(activity) + activity.getResources().getDimension(R.dimen.common_tittle_height));
-            childView.setLayoutParams(layoutParams);
+//            ViewGroup.LayoutParams layoutParams = childView.getLayoutParams();
+//            layoutParams.height=(int) (getStatusBarHeight(activity) + activity.getResources().getDimension(R.dimen.common_tittle_height));
+//            layoutParams.height=(int) (getStatusBarHeight(activity) + layoutParams.height);
+//            childView.setLayoutParams(layoutParams);
+
+            childView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    childView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    ViewGroup.LayoutParams layoutParams = childView.getLayoutParams();
+//            layoutParams.height=(int) (getStatusBarHeight(activity) + activity.getResources().getDimension(R.dimen.common_tittle_height));
+                    layoutParams.height=(int) (getStatusBarHeight(activity) + childView.getHeight());
+                    childView.setLayoutParams(layoutParams);
+                }
+            });
         }
     }
     /**
