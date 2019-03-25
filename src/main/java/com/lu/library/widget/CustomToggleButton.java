@@ -170,17 +170,15 @@ public class CustomToggleButton extends View implements View.OnTouchListener {
                 break;
 
             // 按下
-            case MotionEvent.ACTION_DOWN:
-                // if(event.getX() > switch_on_Bkg.getWidth() || event.getY() >
-                // switch_on_Bkg.getHeight()) {
-                if (event.getX() > switch_on_Bkg.getWidth()) {
-                    return false;
-                }
-                dis = 0;
-                isSlipping = true;
-                previousX = event.getX();
-                currentX = previousX;
-                break;
+//            case MotionEvent.ACTION_DOWN:
+//                if (event.getX() > switch_on_Bkg.getWidth()) {
+//                    return false;
+//                }
+//                dis = 0;
+//                isSlipping = true;
+//                previousX = event.getX();
+//                currentX = previousX;
+//                break;
             // 松开
             case MotionEvent.ACTION_UP:
                 isSlipping = false;
@@ -188,35 +186,40 @@ public class CustomToggleButton extends View implements View.OnTouchListener {
                 tempState = dis > (switch_on_Bkg.getWidth() / 2);
                 DebugLog.d("eventAction = " + event.getAction() + "***x = " + event.getX() + "***limit = " + (switch_on_Bkg.getWidth()));
                 DebugLog.d("eventAction = " + event.getAction() + "***tempState = " + tempState + "***isSwitchOn = " + isSwitchOn + "***dis = " + dis);
-                if (event.getX() >= (switch_on_Bkg.getWidth() / 2)) {
-                    tempState = true;
-                } else {
-                    tempState = false;
-                }
-
+//                if (event.getX() >= (switch_on_Bkg.getWidth() / 2)) {
+//                    tempState = true;
+//                } else {
+//                    tempState = false;
+//                }
+                isSwitchOn=!isSwitchOn;
                 // 如果设置了监听器，则调用此方法
-                if (onSwitchListener != null && (tempState != isSwitchOn)) {
-                    onSwitchListener.onSwitched(tempState);
+                if (onSwitchListener != null) {
+                    onSwitchListener.onSwitched(isSwitchOn);
                 }
-                isSwitchOn = tempState;
+//                if (onSwitchListener != null && (tempState != isSwitchOn)) {
+//                    onSwitchListener.onSwitched(tempState);
+//                }
+//                isSwitchOn = tempState;
+                invalidate();
                 break;
             case MotionEvent.ACTION_CANCEL:
                 isSlipping = false;
                 // 如果设置了监听器，则调用此方法
-                tempState = currentX >= switch_on_Bkg.getWidth() / 2;
-                DebugLog.d("eventAction = " + event.getAction() + "***tempState = " + tempState + "***isSwitchOn = " + isSwitchOn + "***dis = " + dis);
-                if (onSwitchListener != null && tempState != isSwitchOn) {
-                    onSwitchListener.onSwitched(tempState);
-                }
-                isSwitchOn = tempState;
+//                tempState = currentX >= switch_on_Bkg.getWidth() / 2;
+//                DebugLog.d("eventAction = " + event.getAction() + "***tempState = " + tempState + "***isSwitchOn = " + isSwitchOn + "***dis = " + dis);
+//                if (onSwitchListener != null && tempState != isSwitchOn) {
+//                    onSwitchListener.onSwitched(tempState);
+//                }
+//                isSwitchOn = tempState;
+                // 重新绘制控件
+                invalidate();
                 break;
 
             default:
                 break;
         }
 
-        // 重新绘制控件
-        invalidate();
+
         return true;
     }
 
