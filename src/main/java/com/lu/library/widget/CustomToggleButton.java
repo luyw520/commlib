@@ -156,9 +156,9 @@ public class CustomToggleButton extends View implements View.OnTouchListener,Vie
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (callback != null && callback.handerEvent()) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 //        if (!isTouchEnable) return false;
 //        // 松开前开关的状态
@@ -237,6 +237,7 @@ public class CustomToggleButton extends View implements View.OnTouchListener,Vie
         if (onSwitchListener != null) {
             onSwitchListener.onSwitched(isSwitchOn);
         }
+        invalidate();
     }
 
     public interface OnSwitchListener {

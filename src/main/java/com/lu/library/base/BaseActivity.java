@@ -278,7 +278,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }else {
             return result;
         }
-
         if (tag.equals(mActivityJumpTag) && mActivityJumpTime >= SystemClock.uptimeMillis() - 500) {
             // 检查不通过
             result = false;
@@ -286,7 +285,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
         // 记录启动标记和时间
         mActivityJumpTag = tag;
-        mActivityJumpTime = SystemClock.uptimeMillis();
+        mActivityJumpTime = System.currentTimeMillis();
         return result;
     }
 
