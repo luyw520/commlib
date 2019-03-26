@@ -11,10 +11,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.lu.library.R;
-import com.lu.library.log.DebugLog;
 
 
-public class CustomToggleButton extends View implements View.OnTouchListener {
+public class CustomToggleButton extends View implements View.OnTouchListener,View.OnClickListener {
 
     public boolean isTouchEnable = true;
     Paint paint = new Paint();
@@ -47,6 +46,7 @@ public class CustomToggleButton extends View implements View.OnTouchListener {
     private void init() {
         setOnTouchListener(this);
         setImageResource(R.drawable.toggle_on, R.drawable.toggle_off, R.drawable.toggle_thumb);
+        setOnClickListener(this);
     }
 
     public void setImageResource(int switchOnBkg, int switchOffBkg, int slipBtn) {
@@ -155,76 +155,88 @@ public class CustomToggleButton extends View implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (callback!=null&& callback.handerEvent()){
+        if (callback != null && callback.handerEvent()) {
             return false;
         }
-        if (!isTouchEnable) return false;
-        // 松开前开关的状态
-        boolean previousSwitchState = isSwitchOn;
-        boolean tempState = isSwitchOn;
-        switch (event.getAction()) {
-            // 滑动
-            case MotionEvent.ACTION_MOVE:
-                dis = event.getX() - previousX;
-                currentX = event.getX();
-                break;
-
-            // 按下
-//            case MotionEvent.ACTION_DOWN:
-//                if (event.getX() > switch_on_Bkg.getWidth()) {
-//                    return false;
-//                }
-//                dis = 0;
-//                isSlipping = true;
-//                previousX = event.getX();
-//                currentX = previousX;
-//                break;
-            // 松开
-            case MotionEvent.ACTION_UP:
-                isSlipping = false;
-
-                tempState = dis > (switch_on_Bkg.getWidth() / 2);
-                DebugLog.d("eventAction = " + event.getAction() + "***x = " + event.getX() + "***limit = " + (switch_on_Bkg.getWidth()));
-                DebugLog.d("eventAction = " + event.getAction() + "***tempState = " + tempState + "***isSwitchOn = " + isSwitchOn + "***dis = " + dis);
-//                if (event.getX() >= (switch_on_Bkg.getWidth() / 2)) {
-//                    tempState = true;
-//                } else {
-//                    tempState = false;
-//                }
-                isSwitchOn=!isSwitchOn;
-                // 如果设置了监听器，则调用此方法
-                if (onSwitchListener != null) {
-                    onSwitchListener.onSwitched(isSwitchOn);
-                }
-//                if (onSwitchListener != null && (tempState != isSwitchOn)) {
-//                    onSwitchListener.onSwitched(tempState);
-//                }
-//                isSwitchOn = tempState;
-                invalidate();
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                isSlipping = false;
-                // 如果设置了监听器，则调用此方法
-//                tempState = currentX >= switch_on_Bkg.getWidth() / 2;
-//                DebugLog.d("eventAction = " + event.getAction() + "***tempState = " + tempState + "***isSwitchOn = " + isSwitchOn + "***dis = " + dis);
-//                if (onSwitchListener != null && tempState != isSwitchOn) {
-//                    onSwitchListener.onSwitched(tempState);
-//                }
-//                isSwitchOn = tempState;
-                // 重新绘制控件
-                invalidate();
-                break;
-
-            default:
-                break;
-        }
-
-
         return true;
     }
+//        if (!isTouchEnable) return false;
+//        // 松开前开关的状态
+//        boolean previousSwitchState = isSwitchOn;
+//        boolean tempState = isSwitchOn;
+//        switch (event.getAction()) {
+//            // 滑动
+//            case MotionEvent.ACTION_MOVE:
+//                dis = event.getX() - previousX;
+//                currentX = event.getX();
+//                break;
+//
+//            // 按下
+////            case MotionEvent.ACTION_DOWN:
+////                if (event.getX() > switch_on_Bkg.getWidth()) {
+////                    return false;
+////                }
+////                dis = 0;
+////                isSlipping = true;
+////                previousX = event.getX();
+////                currentX = previousX;
+////                break;
+//            // 松开
+//            case MotionEvent.ACTION_UP:
+//                isSlipping = false;
+//
+//                tempState = dis > (switch_on_Bkg.getWidth() / 2);
+//                DebugLog.d("eventAction = " + event.getAction() + "***x = " + event.getX() + "***limit = " + (switch_on_Bkg.getWidth()));
+//                DebugLog.d("eventAction = " + event.getAction() + "***tempState = " + tempState + "***isSwitchOn = " + isSwitchOn + "***dis = " + dis);
+////                if (event.getX() >= (switch_on_Bkg.getWidth() / 2)) {
+////                    tempState = true;
+////                } else {
+////                    tempState = false;
+////                }
+//                isSwitchOn=!isSwitchOn;
+//                // 如果设置了监听器，则调用此方法
+//                if (onSwitchListener != null) {
+//                    onSwitchListener.onSwitched(isSwitchOn);
+//                }
+////                if (onSwitchListener != null && (tempState != isSwitchOn)) {
+////                    onSwitchListener.onSwitched(tempState);
+////                }
+////                isSwitchOn = tempState;
+//                invalidate();
+//                break;
+//            case MotionEvent.ACTION_CANCEL:
+//                isSlipping = false;
+//                // 如果设置了监听器，则调用此方法
+////                tempState = currentX >= switch_on_Bkg.getWidth() / 2;
+////                DebugLog.d("eventAction = " + event.getAction() + "***tempState = " + tempState + "***isSwitchOn = " + isSwitchOn + "***dis = " + dis);
+////                if (onSwitchListener != null && tempState != isSwitchOn) {
+////                    onSwitchListener.onSwitched(tempState);
+////                }
+////                isSwitchOn = tempState;
+//                // 重新绘制控件
+//                invalidate();
+//                break;
+//
+//            default:
+//                break;
+//        }
+//
+//
+//        return true;
+//    }
 
     public void setOnSwitchListener(OnSwitchListener listener) {
         onSwitchListener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        isSwitchOn=!isSwitchOn;
+        // 如果设置了监听器，则调用此方法
+        if (onSwitchListener != null) {
+            onSwitchListener.onSwitched(isSwitchOn);
+        }
     }
 
     public interface OnSwitchListener {
