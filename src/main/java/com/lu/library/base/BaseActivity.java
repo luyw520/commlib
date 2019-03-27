@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.EditText;
 
 import com.baidu.mobstat.StatService;
+import com.lu.library.log.LogUtil;
 import com.lu.library.util.EventBusHelper;
 import com.lu.library.util.NetUtil;
 import com.lu.library.util.ObjectUtil;
@@ -258,8 +259,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
     private String mActivityJumpTag;
-    private long mActivityJumpTime;
-
+    private static long mActivityJumpTime;
     /**
      * 检查当前 Activity 是否重复跳转了，不需要检查则重写此方法并返回 true 即可
      *
@@ -278,7 +278,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }else {
             return result;
         }
-        if (tag.equals(mActivityJumpTag) && mActivityJumpTime >= SystemClock.uptimeMillis() - 500) {
+        LogUtil.d("tag:"+tag);
+        LogUtil.d("mActivityJumpTag:"+mActivityJumpTag);
+        long dx=System.currentTimeMillis()-mActivityJumpTime;
+        LogUtil.d("dx:"+dx);
+        if (tag.equals(mActivityJumpTag) && dx<=500) {
             // 检查不通过
             result = false;
         }
