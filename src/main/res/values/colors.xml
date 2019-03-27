@@ -14,4 +14,6 @@
 
     <color name="toast_bg">#242424</color>
     <color name="toast_txt_color">#FFFFFF</color>
+
+    <color name="touch_bg_color">#bb565656</color>
 </resources>
