@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import android.view.Window;
 import android.widget.EditText;
 
 import com.baidu.mobstat.StatService;
+import com.lu.library.R;
 import com.lu.library.log.LogUtil;
 import com.lu.library.util.EventBusHelper;
 import com.lu.library.util.NetUtil;
