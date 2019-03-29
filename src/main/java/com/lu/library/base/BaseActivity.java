@@ -305,7 +305,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     protected boolean isNetWorkAndToast() {
         if (!NetUtil.isConnected(this)) {
-//            showToast((R.string.no_network));
+            showToast((R.string.no_network));
             return false;
         }
         return true;
