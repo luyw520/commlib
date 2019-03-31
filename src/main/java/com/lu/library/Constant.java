@@ -159,7 +159,7 @@ public interface Constant {
      * 详情获取数据类型
      */
     int DETAIL_TYPE_DAY = 0;
-    int DETAIL_TYPE_WEEK = 1;
-    int DETAIL_TYPE_MONTH = 2;
+    int DETAIL_TYPE_ONE_MONTH = 1;
+    int DETAIL_TYPE_SIX_MONTH = 2;
     int DETAIL_TYPE_YEAR = 3;
 }
