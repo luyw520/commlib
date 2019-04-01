@@ -136,7 +136,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         permissionUtil=new PermissionUtil();
         permissionUtil.setRequsetResult(this);
         tag=getClass().getSimpleName();
-        LogUtil.d("tag:"+tag);
+        LogUtil.d("tag:"+tag+",onCreateView:"+toString());
         initView();
         initData();
         HookClickListenerHelper.hookViewGroup((ViewGroup) mRootView);
