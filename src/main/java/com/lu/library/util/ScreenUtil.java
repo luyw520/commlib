@@ -319,6 +319,27 @@ public class ScreenUtil {
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+    public static void addStatusHeight(final Activity activity,int res,final boolean isAddPaddingTop){
+        final View viewGroup=activity.findViewById(res);
+//        viewGroup.setFitsSystemWindows(true);
+//        viewGroup.setClipToPadding(true);
+        viewGroup.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewGroup.LayoutParams layoutParams = viewGroup.getLayoutParams();
+                layoutParams.height = (ScreenUtil.getStatusBarHeight(activity) + viewGroup.getHeight());
+                if (isAddPaddingTop) {
+                    int paddingLeft = viewGroup.getPaddingLeft();
+                    int paddingBottom = viewGroup.getPaddingBottom();
+                    int paddingTop = viewGroup.getPaddingTop() + ScreenUtil.getStatusBarHeight(activity);
+                    int paddingRight = viewGroup.getPaddingRight();
+                    viewGroup.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+                }
+                viewGroup.setLayoutParams(layoutParams);
+            }
+        });
+
+    }
     /**
      * 设置通用的沉浸式状态栏【带CommonTitle标题栏的Activity】
      *
