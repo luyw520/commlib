@@ -639,6 +639,9 @@ public class CommonTitleBarHelper {
         TextView midTitle = createTextView("",16,R.color.white,titleId);
         mids.add(midTitle);
     }
+    public TextView getTitleView(){
+        return activity.findViewById(titleId);
+    }
     private void addRightTextView(){
         // 左侧的取消按钮
         TextView midTitle = createTextView("",16,R.color.white,rightStrId);
