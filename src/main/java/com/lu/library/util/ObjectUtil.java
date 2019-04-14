@@ -1,8 +1,14 @@
 package com.lu.library.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by lyw.
@@ -14,6 +20,22 @@ import java.util.Collection;
  */
 
 public class ObjectUtil {
+    public static <E> List<E> deepCopy(List<E> src) {
+        try {
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(byteOut);
+            out.writeObject(src);
+
+            ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
+            ObjectInputStream in = new ObjectInputStream(byteIn);
+            @SuppressWarnings("unchecked")
+            List<E> dest = (List<E>) in.readObject();
+            return dest;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<E>();
+        }
+    }
     /**
      * 获取传入Class对面里面泛型
      * 得到泛型类P的对象
