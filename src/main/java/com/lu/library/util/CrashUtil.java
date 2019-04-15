@@ -6,7 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,11 +27,11 @@ import java.util.Map;
 /**
  * 奔溃日志铺货辅助类
  */
-public class CrashHandlerUtil implements Thread.UncaughtExceptionHandler {
+public class CrashUtil implements Thread.UncaughtExceptionHandler {
 
-	public static final String TAG = "CrashHandlerUtil";
+	public static final String TAG = "CrashUtil";
 	//CrashHandler实例
-	private static CrashHandlerUtil INSTANCE = new CrashHandlerUtil();
+	private static CrashUtil INSTANCE = new CrashUtil();
 	public String path;
 	//系统默认的UncaughtException处理类
 	private Thread.UncaughtExceptionHandler mDefaultHandler;
@@ -44,11 +43,11 @@ public class CrashHandlerUtil implements Thread.UncaughtExceptionHandler {
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
 	/** 保证只有一个CrashHandler实例 */
-	private CrashHandlerUtil() {
+	private CrashUtil() {
 	}
 
 	/** 获取CrashHandler实例 ,单例模式 */
-	public static CrashHandlerUtil getInstance() {
+	public static CrashUtil getInstance() {
 		return INSTANCE;
 	}
 
@@ -104,13 +103,13 @@ public class CrashHandlerUtil implements Thread.UncaughtExceptionHandler {
 			return false;
 		}
 		//使用Toast来显示异常信息
-		new Thread() {
-			@Override
-			public void run() {
-				Looper.prepare();
-				Looper.loop();
-			}
-		}.start();
+//		new Thread() {
+//			@Override
+//			public void run() {
+//				Looper.prepare();
+//				Looper.loop();
+//			}
+//		}.start();
 		//收集设备参数信息
 		collectDeviceInfo(mContext);
 		//保存日志文件

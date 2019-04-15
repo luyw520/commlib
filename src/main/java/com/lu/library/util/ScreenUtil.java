@@ -7,6 +7,7 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,8 +21,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.lu.library.R;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -63,20 +62,48 @@ public class ScreenUtil {
             height=900;
         }
         if (brand.equals("Meizu")) {
-//            b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - 5 * statusBarHeight
-//            );
             b = Bitmap.createBitmap(b1, 0, 0, width, height);
 
         } else {
-
             // 去掉标题栏
             b = Bitmap.createBitmap(b1, 0, 0, width, height);
-//            b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height
-//                    - statusBarHeight);
         }
 
         view.destroyDrawingCache();
         return b;
+    }
+    /**
+     * Return the bitmap of screen.
+     *
+     * @param activity          The activity.
+     * @param isDeleteStatusBar True to delete status bar, false otherwise.
+     * @return the bitmap of screen
+     */
+    public static Bitmap screenShot(final Activity activity, boolean isDeleteStatusBar) {
+        View decorView = activity.getWindow().getDecorView();
+        decorView.setDrawingCacheEnabled(true);
+        decorView.setWillNotCacheDrawing(false);
+        Bitmap bmp = decorView.getDrawingCache();
+        if (bmp == null) return null;
+        DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        Bitmap ret;
+        if (isDeleteStatusBar) {
+            Resources resources = activity.getResources();
+            int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+            int statusBarHeight = resources.getDimensionPixelSize(resourceId);
+            ret = Bitmap.createBitmap(
+                    bmp,
+                    0,
+                    statusBarHeight,
+                    dm.widthPixels,
+                    dm.heightPixels - statusBarHeight
+            );
+        } else {
+            ret = Bitmap.createBitmap(bmp, 0, 0, dm.widthPixels, dm.heightPixels);
+        }
+        decorView.destroyDrawingCache();
+        return ret;
     }
     /**
      * 截图全屏
@@ -503,25 +530,6 @@ public class ScreenUtil {
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
     /**
-     * 设置通用的沉浸式状态栏【带CommonTitle标题栏的Activity】
-     *
-     * @param activity
-     */
-    public static void setNavigationBar(Activity activity,int viewId) {
-        ScreenUtil.setImmersiveStatusBar(activity);
-
-        ViewGroup parentView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);//拿到第一层的content
-
-        ViewGroup childView = parentView.findViewById(viewId);//第二层布局layout
-//        if (parentView.getChildAt(0) instanceof ViewGroup) {
-        childView.setFitsSystemWindows(true);
-        childView.setClipToPadding(true);
-        ViewGroup.LayoutParams layoutParams = childView.getLayoutParams();
-        layoutParams.height=(int) (getStatusBarHeight(activity) + activity.getResources().getDimension(R.dimen.common_tittle_height));
-        childView.setLayoutParams(layoutParams);
-//        }
-    }
-    /**
      * 获取状态栏高度
      *
      * @param context 上下文
@@ -601,6 +609,16 @@ public class ScreenUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    /**判断是否是平板
+     * Return whether device is tablet.
+     *
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isTablet() {
+        return (Utils.getApp().getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
 }

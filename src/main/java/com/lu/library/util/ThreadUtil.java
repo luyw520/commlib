@@ -20,4 +20,7 @@ public class ThreadUtil {
         Handler handler=new Handler(Looper.getMainLooper());
         handler.postDelayed(task,delay);
     }
+    public static boolean isMainThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
+    }
 }

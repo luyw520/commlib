@@ -1,5 +1,7 @@
 package com.lu.library.util;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -8,22 +10,30 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
-import android.telephony.TelephonyManager;
 
 import com.lu.library.LibContext;
 import com.lu.library.log.DebugLog;
 import com.lu.library.log.LogUtil;
 
+import java.io.File;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.POWER_SERVICE;
+import static com.lu.library.util.IntentUtils.getInstallAppIntent;
+import static com.lu.library.util.file.FileUtil.getFileByPath;
+import static com.lu.library.util.file.FileUtil.isFileExists;
+import static com.lu.library.util.string.ConvertUtil.bytes2HexString;
+import static com.lu.library.util.string.StringUtil.isSpace;
 
 /**
  * @author: lyw
@@ -122,7 +132,27 @@ public class AppUtil {
             return "";
         }
     }
-
+    /**
+     * Install the app.
+     * <p>Target APIs greater than 25 must hold
+     * {@code <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />}</p>
+     *
+     * @param filePath The path of file.
+     */
+    public static void installApp(final String filePath) {
+        installApp(getFileByPath(filePath));
+    }
+    /**
+     * Install the app.
+     * <p>Target APIs greater than 25 must hold
+     * {@code <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />}</p>
+     *
+     * @param file The file.
+     */
+    public static void installApp(final File file) {
+        if (!isFileExists(file)) return;
+        Utils.getApp().startActivity(getInstallAppIntent(file, true));
+    }
     /**
      * 获取版本号
      * @param context 全局context
@@ -139,11 +169,123 @@ public class AppUtil {
 
         return version;
     }
+    /**
+     * Return the application's signature.
+     *
+     * @return the application's signature
+     */
+    public static Signature[] getAppSignature() {
+        return getAppSignature(Utils.getApp().getPackageName());
+    }
+    /**
+     * Return the application's signature for SHA1 value.
+     *
+     * @return the application's signature for SHA1 value
+     */
+    public static String getAppSignatureSHA1() {
+        return getAppSignatureSHA1(Utils.getApp().getPackageName());
+    }
 
+    /**
+     * Return the application's signature for SHA1 value.
+     *
+     * @param packageName The name of the package.
+     * @return the application's signature for SHA1 value
+     */
+    public static String getAppSignatureSHA1(final String packageName) {
+        return getAppSignatureHash(packageName, "SHA1");
+    }
+    /**
+     * Return the application's signature for SHA256 value.
+     *
+     * @return the application's signature for SHA256 value
+     */
+    public static String getAppSignatureSHA256() {
+        return getAppSignatureSHA256(Utils.getApp().getPackageName());
+    }
+
+    /**
+     * Return the application's signature for SHA256 value.
+     *
+     * @param packageName The name of the package.
+     * @return the application's signature for SHA256 value
+     */
+    public static String getAppSignatureSHA256(final String packageName) {
+        return getAppSignatureHash(packageName, "SHA256");
+    }
+    /**
+     * Return the application's signature for MD5 value.
+     *
+     * @param packageName The name of the package.
+     * @return the application's signature for MD5 value
+     */
+    public static String getAppSignatureMD5(final String packageName) {
+        return getAppSignatureHash(packageName, "MD5");
+    }
+
+    private static String getAppSignatureHash(final String packageName, final String algorithm) {
+        if (isSpace(packageName)) return "";
+        Signature[] signature = getAppSignature(packageName);
+        if (signature == null || signature.length <= 0) return "";
+        return bytes2HexString(hashTemplate(signature[0].toByteArray(), algorithm))
+                .replaceAll("(?<=[0-9A-F]{2})[0-9A-F]{2}", ":$0");
+    }
+
+    private static byte[] hashTemplate(final byte[] data, final String algorithm) {
+        if (data == null || data.length <= 0) return null;
+        try {
+            MessageDigest md = MessageDigest.getInstance(algorithm);
+            md.update(data);
+            return md.digest();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    /**
+     * Return the application's signature for MD5 value.
+     *
+     * @return the application's signature for MD5 value
+     */
+    public static String getAppSignatureMD5() {
+        return getAppSignatureMD5(Utils.getApp().getPackageName());
+    }
+
+    /**
+     * Return the application's signature.
+     *
+     * @param packageName The name of the package.
+     * @return the application's signature
+     */
+    public static Signature[] getAppSignature(final String packageName) {
+        if (isSpace(packageName)) return null;
+        try {
+            PackageManager pm = Utils.getApp().getPackageManager();
+            @SuppressLint("PackageManagerGetSignatures")
+            PackageInfo pi = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
+            return pi == null ? null : pi.signatures;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static String getLanguage(){
         Locale locale = LibContext.getAppContext().getResources().getConfiguration().locale;
         return locale.getLanguage();
     }
+    /**
+     * Exit the application.
+     */
+    public static void exitApp() {
+        List<Activity> activityList = Utils.getActivityList();
+        for (int i = activityList.size() - 1; i >= 0; --i) {// remove from top
+            Activity activity = activityList.get(i);
+            // sActivityList remove the index activity at onActivityDestroyed
+            activity.finish();
+        }
+        System.exit(0);
+    }
+
     /**
      * 判断整个app项目是否在用户操作界面
      *b
@@ -200,17 +342,6 @@ public class AppUtil {
             e.printStackTrace();
             return "";
         }
-    }
-    public static String getPhoneInfo(Context context){
-        TelephonyManager mTm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        StringBuffer stringBuffer=new StringBuffer();
-        stringBuffer.append(",type:"+ Build.MODEL);
-        stringBuffer.append(",品牌:"+ Build.MANUFACTURER);
-        stringBuffer.append(",设备名称:"+ Build.MANUFACTURER+Build.DEVICE);
-        stringBuffer.append(",SDK_INT:"+ Build.VERSION.SDK_INT);
-        stringBuffer.append(",RELEASE:"+ Build.VERSION.RELEASE);
-        stringBuffer.append(",app版本:"+getVersionName(context));
-        return stringBuffer.toString();
     }
     /**
      * 根据包名判断是否安装了应用

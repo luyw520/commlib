@@ -2,8 +2,14 @@ package com.lu.library.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AppOpsManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
@@ -49,7 +55,25 @@ public class PermissionUtil {
         }
         return denyPermissions;
     }
-
+    /**
+     * Return whether the app can draw on top of other apps.
+     *
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static boolean isGrantedDrawOverlays() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AppOpsManager aom = (AppOpsManager) Utils.getApp().getSystemService(Context.APP_OPS_SERVICE);
+            if (aom == null) return false;
+            int mode = aom.checkOpNoThrow(
+                    "android:system_alert_window",
+                    android.os.Process.myUid(),
+                    Utils.getApp().getPackageName()
+            );
+            return mode == AppOpsManager.MODE_ALLOWED || mode == AppOpsManager.MODE_IGNORED;
+        }
+        return Settings.canDrawOverlays(Utils.getApp());
+    }
     /**
      * 检测权限，如果返回true,有权限 false 无权限
      * @param permission 权限
@@ -60,6 +84,32 @@ public class PermissionUtil {
             return true;
         }
         return false;
+    }
+    @TargetApi(Build.VERSION_CODES.M)
+    private static void startWriteSettingsActivity(final Activity activity, final int requestCode) {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+        intent.setData(Uri.parse("package:" + Utils.getApp().getPackageName()));
+        if (!isIntentAvailable(intent)) {
+            launchAppDetailsSettings();
+            return;
+        }
+        activity.startActivityForResult(intent, requestCode);
+    }
+    /**
+     * 打开应用具体设置
+     * Launch the application's details settings.
+     */
+    public static void launchAppDetailsSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + Utils.getApp().getPackageName()));
+        if (!isIntentAvailable(intent)) return;
+        Utils.getApp().startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+    private static boolean isIntentAvailable(final Intent intent) {
+        return Utils.getApp()
+                .getPackageManager()
+                .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+                .size() > 0;
     }
     /**
      * 申请权限

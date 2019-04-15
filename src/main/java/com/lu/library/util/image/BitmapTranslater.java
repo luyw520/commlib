@@ -34,10 +34,6 @@ import static com.lu.library.util.image.BitmapUtil.isEmptyBitmap;
 /**
  * Created by lyw.
  *
- * @author: lyw
- * @package: com.lu.library.util.image
- * @description: ${TODO}{ 类注释}
- * @date: 2018/9/29 0029
  * bitmap转换辅助类
  * 包含缩放，裁剪，添加效果
  */
