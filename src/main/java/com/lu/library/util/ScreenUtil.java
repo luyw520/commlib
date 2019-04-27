@@ -22,6 +22,8 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.lu.library.LibContext;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -359,6 +361,24 @@ public class ScreenUtil {
                     int paddingLeft = viewGroup.getPaddingLeft();
                     int paddingBottom = viewGroup.getPaddingBottom();
                     int paddingTop = viewGroup.getPaddingTop() + ScreenUtil.getStatusBarHeight(activity);
+                    int paddingRight = viewGroup.getPaddingRight();
+                    viewGroup.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+                }
+                viewGroup.setLayoutParams(layoutParams);
+            }
+        });
+
+    }
+    public static void addStatusHeight(final View viewGroup,final boolean isAddPaddingTop){
+        viewGroup.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewGroup.LayoutParams layoutParams = viewGroup.getLayoutParams();
+                layoutParams.height = (ScreenUtil.getStatusBarHeight(LibContext.getAppContext()) + viewGroup.getHeight());
+                if (isAddPaddingTop) {
+                    int paddingLeft = viewGroup.getPaddingLeft();
+                    int paddingBottom = viewGroup.getPaddingBottom();
+                    int paddingTop = viewGroup.getPaddingTop() + ScreenUtil.getStatusBarHeight(LibContext.getAppContext());
                     int paddingRight = viewGroup.getPaddingRight();
                     viewGroup.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
                 }
