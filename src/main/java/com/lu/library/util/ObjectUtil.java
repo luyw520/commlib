@@ -1,12 +1,13 @@
 package com.lu.library.util;
 
 import android.os.Build;
-import android.support.v4.util.SimpleArrayMap;
 import android.util.LongSparseArray;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 import android.util.SparseLongArray;
+
+import androidx.collection.SimpleArrayMap;
 
 import com.google.gson.Gson;
 

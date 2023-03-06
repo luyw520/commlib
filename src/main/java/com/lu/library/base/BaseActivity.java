@@ -6,20 +6,19 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 
-import com.baidu.mobstat.StatService;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.lu.library.R;
 import com.lu.library.log.LogUtil;
 import com.lu.library.util.EventBusHelper;
 import com.lu.library.util.NetUtil;
 import com.lu.library.util.ObjectUtil;
-import com.lu.library.util.PermissionUtil;
 import com.lu.library.util.ScreenUtil;
 import com.lu.library.util.ToastUtil;
 import com.lu.library.widget.CommonTitleBarHelper;
@@ -35,16 +34,14 @@ import butterknife.ButterKnife;
  * 子类如果有多个泛型，则第一个泛型必须是BasePresenter的子类
  */
 
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements PermissionUtil.RequsetResult,IBaseView {
+public abstract class BaseActivity extends AppCompatActivity {
 
-    protected P mPersenter;
     protected final static int WRITE_EXTERNAL_STORAGE_REQUEST_CODE=100;
     protected final static int ACCESS_FINE_LOCATION_REQUEST_CODE=100;
     /**
      * 通用头部辅助类
      */
     protected CommonTitleBarHelper commonTitleBarHelper;
-    private PermissionUtil permissionUtil;
     protected Activity activity;
     protected Activity mActivity;
     @Override
@@ -57,9 +54,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mActivity=this;
         ButterKnife.bind(this);
         EventBusHelper.register(this);
-        initPresenter();
-        permissionUtil=new PermissionUtil();
-        permissionUtil.setRequsetResult(this);
         commonTitleBarHelper=new CommonTitleBarHelper();
         commonTitleBarHelper.init(this);
         setNavigationBar();
@@ -138,42 +132,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void handleMessage(BaseMessage message) {
     }
 
-    /**
-     * 初始化P类型的对象，并且绑定该IBaseView子类
-     */
-    private void initPresenter() {
-        mPersenter=autoCreatePresenter();
-        if (mPersenter!=null){
-            try {
-                mPersenter.attachView((IBaseView) this);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
 
-        }
 
-    }
-    /**
-     * 检测权限，如果返回true,有权限 false 无权限
-     * @param permissions 权限
-     * @return 是否有权限
-     */
-    public boolean checkSelfPermission(String... permissions){
-        return PermissionUtil.checkSelfPermission(permissions);
-    }
-    public void requestPermissions(int requestCode,String... permissions){
-        PermissionUtil.requestPermissions(this,requestCode,permissions);
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        permissionUtil.onRequestPermissionsResult(requestCode,permissions,grantResults);
-    }
-    public void requestPermissionsSuccess(int requestCode){
-
-    };
-    public void requestPermissionsFail(int requestCode){};
     /**
      * 初始化数据
      */
@@ -184,21 +145,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      * @return 布局资源文件
      */
     public abstract int getLayoutResID();
-    /**
-     * 生成P类型的一个实例
-     * @return P类型的一个实例
-     */
-    public  P autoCreatePresenter() {
-        return ObjectUtil.getParameterizedType(getClass());
-    };
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
         EventBusHelper.unregister(this);
-        if (mPersenter!=null) {
-            mPersenter.detachView();
-        }
+
     }
 
     /**
@@ -311,13 +264,5 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         return true;
 
     }
-    /**
-     * 百度统计埋点
-     *
-     * @param eventId 事件id
-     * @param label   事件标签
-     */
-    protected void setBaiduStat(String eventId, String label) {
-        StatService.onEvent(this, eventId, label);
-    }
+
 }

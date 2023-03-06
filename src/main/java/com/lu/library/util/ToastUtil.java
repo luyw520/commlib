@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.lu.library.LibContext;
 import com.lu.library.R;
-import com.lu.library.task.MainThread;
 
 
 /**
@@ -63,7 +62,7 @@ public class ToastUtil {
      */
     public static void showToast(final Context context,final String message,final int duration) {
 
-        MainThread.runOnMainThread(new Runnable(){
+        ThreadUtil.runOnMainThread(new Runnable(){
             @Override
             public void run() {
                 if (mToast == null) {

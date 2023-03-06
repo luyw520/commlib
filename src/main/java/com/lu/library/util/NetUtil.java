@@ -8,7 +8,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.Log;
@@ -29,6 +28,8 @@ import static android.Manifest.permission.CHANGE_WIFI_STATE;
 import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.MODIFY_PHONE_STATE;
 import static android.content.Context.WIFI_SERVICE;
+
+import androidx.annotation.RequiresPermission;
 
 
 public class NetUtil {

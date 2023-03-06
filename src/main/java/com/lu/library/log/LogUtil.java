@@ -37,7 +37,6 @@ public class LogUtil {
     public static void d(String message, String dirPath){
         getMethodNames(new Throwable().getStackTrace(),1);
         String log=createLog(message);
-        LogService.p(dirPath, "dAndSave", log);
         Log.i(className, log);
     }
 
@@ -50,7 +49,6 @@ public class LogUtil {
 
         getMethodNames(new Throwable().getStackTrace(),1);
         String log=createLog(message);
-        LogService.p(dirPath, "dAndSave", log);
         Log.i(className, log);
 
     }
