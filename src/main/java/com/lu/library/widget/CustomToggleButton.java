@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.lu.library.R;
-import com.lu.library.log.LogUtil;
 
 
 public class CustomToggleButton extends View implements View.OnTouchListener,View.OnClickListener {
@@ -234,7 +233,6 @@ public class CustomToggleButton extends View implements View.OnTouchListener,Vie
     public void onClick(View v) {
 
         isSwitchOn=!isSwitchOn;
-        LogUtil.d("isSwitchOn:"+isSwitchOn);
         // 如果设置了监听器，则调用此方法
         if (onSwitchListener != null) {
             onSwitchListener.onSwitched(isSwitchOn);

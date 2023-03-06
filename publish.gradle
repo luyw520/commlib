@@ -1,0 +1,69 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                //io.github.luyw520
+                groupId 'io.github.luyw520' //开通maven central时候定义的
+                artifactId 'commlib' //资源名称
+                version '1.0.0' //版本名称
+                pom {
+                    name = 'commlib'
+                    description = 'commlib'
+                    url = 'https://github.com/luyw520/commlib'
+//                    inceptionYear = '2023'
+                }
+//                scm {
+//                    url = 'https://github.com/xiaozeiqwe8/DialogLib'
+//                    connection = 'scm:git@https://github.com/xiaozeiqwe8/DialogLib.git'
+//                    developerConnection = 'scm:git@https://github.com/xiaozeiqwe8/DialogLib.git'
+//                }
+
+//                licenses {
+//                    license {
+//                        name = 'The Apache Software License, Version 2.0'
+//                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                        distribution = 'repo'
+//                        comments = 'A business-friendly OSS license'
+//                    }
+//                }
+
+//            developers {
+//                developer {
+//                    id = 'xiaozei'
+//                    name = 'karl'
+//                    email = 'xiaozeiqwe8@163.com'
+//                    url = 'https://github.com/xiaozeiqwe8/DialogLib'
+//                }
+//            }
+
+//            issueManagement {
+//                system = 'Github'
+//                url = 'https://github.com/xiaozeiqwe8/DialogLib'
+//            }
+//            artifact generateSourcesJar //需要上传的source jar
+//            artifact generateJavadoc //需要上传的java doc
+                artifact './build/outputs/aar/commlib-release.aar'
+                //需要上传的资源jar路径或者是aar路径，这边可以填写一个生成jar的task，如makeJar方法就是一个生成jar的task
+            }
+        }
+        repositories {
+
+            maven {
+                // 指定要上传的maven仓库
+//                url = 'https://s01.oss.sonatype.org/content/repositories/snapshots'
+                url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+                //Maven仓库用户名和密码
+                credentials {
+                    username = 'yw'
+                    //LXL123456789lxl.
+                    password ='LXL123456789lxl.'
+                }
+            }
+        }
+    }
+    signing {
+        sign publishing.publications.maven //签名配置
+    }
+}

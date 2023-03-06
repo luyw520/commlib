@@ -2,13 +2,19 @@ apply plugin: 'com.android.library'
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-kapt"
 //apply plugin: "com.vanniktech.maven.publish"
+apply from:project.file("publish.gradle")
 android {
     compileSdkVersion 33
  //   buildToolsVersion project.buildToolsVersion
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-      
+
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
     }
 
     buildTypes {
@@ -17,122 +23,106 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs+=["-Xjvm-default=all"]
+    }
+    buildFeatures {
+        dataBinding true
+    }
 }
 def lifecycle_version = "2.5.0-alpha05"
-dependencies {
-    api 'com.google.android:flexbox:1.0.0'
-    api ("io.github.molihuan:pathselector:1.1.14")
-    // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-    // ViewModel utilities for Compose
-//    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
-    // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
-    // Lifecycles only (without ViewModel or LiveData)
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+def core_ktx = "1.8.0"
+def appcompat = "1.5.1"
+def material = "1.5.0"
+def constraint_layout = "2.1.4"
+def coroutines_core = "1.5.0"
+def fragment_ktx = "1.4.1"
+def activity_ktx = "1.4.0"
 
-    // Saved state module for ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+def paging = "2.1.0"
+def work = "2.1.0"
+
+def navigation_fragment_ktx = "2.3.5"
+def navigation_ui_ktx = "2.3.5"
+
+def arouter_api = "1.5.2"
+def arouter_compiler = "1.2.2"
+def mmkv = "1.2.11"
+def glide = "4.14.2"
+def glide_compiler = "4.14.2"
+
+//retrofit
+def retrofit = "2.9.0"
+def retrofit_rxjava = "2.3.0"
+def okhttp_logging_interceptor = "4.3.0"
+
+def gson = "2.10.1"
+def permissionx = "1.1.1"
+
+dependencies {
+    
+    //----------google
+    
+    api "androidx.core:core-ktx:${core_ktx}"
+    api "androidx.appcompat:appcompat:$appcompat"
+    api "com.google.android.material:material:${material}"
+   
+    api "androidx.constraintlayout:constraintlayout:${constraint_layout}"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_core}"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
+    api('androidx.datastore:datastore-preferences:1.0.0')
+    
+    // -------lifecycle-------
+    api("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    api("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    api("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    api("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
 
     // Annotation processor
     kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
     // alternately - if using Java8, use the following instead of lifecycle-compiler
-    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
-
+    api("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
     // optional - helpers for implementing LifecycleOwner in a Service
-    implementation("androidx.lifecycle:lifecycle-service:$lifecycle_version")
+    api("androidx.lifecycle:lifecycle-service:$lifecycle_version")
 
     // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
-    implementation("androidx.lifecycle:lifecycle-process:$lifecycle_version")
-
+    api("androidx.lifecycle:lifecycle-process:$lifecycle_version")
     // optional - ReactiveStreams support for LiveData
-    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version")
+    api("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version")
 
+    api "androidx.fragment:fragment-ktx:${fragment_ktx}"
+    api "androidx.activity:activity-ktx:${activity_ktx}"
+    
+    
+    api "com.alibaba:arouter-api:${arouter_api}"
+    kapt "com.alibaba:arouter-compiler:${arouter_compiler}"
+    
+    api "com.tencent:mmkv-static:${mmkv}"
+    
+    api "com.permissionx.guolindev:permissionx:${permissionx}"
+    
+    api "com.github.bumptech.glide:glide:${glide}"
+    kapt "com.github.bumptech.glide:compiler:${glide}"
+
+    api "com.squareup.retrofit2:retrofit:${retrofit}"
+    api "com.squareup.retrofit2:converter-gson:${retrofit}"
+    api "com.squareup.retrofit2:adapter-rxjava:${retrofit_rxjava}"
+    api "com.squareup.okhttp3:logging-interceptor:${okhttp_logging_interceptor}"
+
+    api 'org.greenrobot:eventbus:3.3.1'
+    
+    //ui 
+    api "com.github.chenBingX:SuperTextView:v3.2.5"
+    api "com.imuxuan:floatingview:1.6"
+    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11"
+   
+    //util
     api 'com.blankj:utilcodex:1.30.6'
-
-    implementation('androidx.datastore:datastore-preferences:1.0.0')
-
-
-
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'org.aspectj:aspectjrt:1.8.9'
-//    compile files('libs/gson-2.7.jar')
-    implementation 'com.tamic.novate:novate:1.5.5'
-    implementation 'org.greenrobot:eventbus:3.0.0'
-    implementation 'com.jakewharton:butterknife:7.0.1'
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-//    compile 'com.zhy:autolayout:1.4.3'
-
-    implementation 'com.orhanobut:logger:2.1.1'
-}
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-afterEvaluate {
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                //io.github.luyw520
-                groupId 'io.github.luyw520' //开通maven central时候定义的
-                artifactId 'commlib' //资源名称
-                version '1.0.0' //版本名称
-                pom {
-                    name = 'commlib'
-                    description = 'commlib'
-                    url = 'https://github.com/luyw520/commlib'
-//                    inceptionYear = '2023'
-                }
-//                scm {
-//                    url = 'https://github.com/xiaozeiqwe8/DialogLib'
-//                    connection = 'scm:git@https://github.com/xiaozeiqwe8/DialogLib.git'
-//                    developerConnection = 'scm:git@https://github.com/xiaozeiqwe8/DialogLib.git'
-//                }
-
-//                licenses {
-//                    license {
-//                        name = 'The Apache Software License, Version 2.0'
-//                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                        distribution = 'repo'
-//                        comments = 'A business-friendly OSS license'
-//                    }
-//                }
-
-//            developers {
-//                developer {
-//                    id = 'xiaozei'
-//                    name = 'karl'
-//                    email = 'xiaozeiqwe8@163.com'
-//                    url = 'https://github.com/xiaozeiqwe8/DialogLib'
-//                }
-//            }
-
-//            issueManagement {
-//                system = 'Github'
-//                url = 'https://github.com/xiaozeiqwe8/DialogLib'
-//            }
-//            artifact generateSourcesJar //需要上传的source jar
-//            artifact generateJavadoc //需要上传的java doc
-                artifact './build/outputs/aar/commlib-release.aar'
-                //需要上传的资源jar路径或者是aar路径，这边可以填写一个生成jar的task，如makeJar方法就是一个生成jar的task
-            }
-        }
-        repositories {
-
-            maven {
-                // 指定要上传的maven仓库
-//                url = 'https://s01.oss.sonatype.org/content/repositories/snapshots'
-                url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-                //Maven仓库用户名和密码
-                credentials {
-                    username = 'yw'
-                    //LXL123456789lxl.
-                    password ='LXL123456789lxl.'
-                }
-            }
-        }
-    }
-    signing {
-        sign publishing.publications.maven //签名配置
-    }
+    api "com.google.code.gson:gson:${gson}"
 }
