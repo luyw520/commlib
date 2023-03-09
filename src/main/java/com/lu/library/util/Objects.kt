@@ -13,3 +13,10 @@ inline fun <reified T : Any> noOpDelegate(): T {
 val NO_OP_HANDLER = InvocationHandler { _, _, _ ->
     // no op
 }
+fun safeRun(block:(()->Unit)){
+    try {
+        block()
+    }catch (e:Exception){
+        e.printStackTrace()
+    }
+}
