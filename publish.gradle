@@ -15,28 +15,28 @@ afterEvaluate {
 //                    inceptionYear = '2023'
                 }
 //                scm {
-//                    url = 'https://github.com/xiaozeiqwe8/DialogLib'
-//                    connection = 'scm:git@https://github.com/xiaozeiqwe8/DialogLib.git'
-//                    developerConnection = 'scm:git@https://github.com/xiaozeiqwe8/DialogLib.git'
+//                    url = 'https://github.com/luyw520/commlib'
+//                    connection = 'scm:git@https://github.com/luyw520/commlib.git'
+//                    developerConnection = 'scm:git@https://github.com/luyw520/commlib.git'
 //                }
 
-//                licenses {
-//                    license {
-//                        name = 'The Apache Software License, Version 2.0'
-//                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                        distribution = 'repo'
-//                        comments = 'A business-friendly OSS license'
-//                    }
-//                }
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
+                        comments = 'A business-friendly OSS license'
+                    }
+                }
 
-//            developers {
-//                developer {
-//                    id = 'xiaozei'
-//                    name = 'karl'
-//                    email = 'xiaozeiqwe8@163.com'
-//                    url = 'https://github.com/xiaozeiqwe8/DialogLib'
-//                }
-//            }
+            developers {
+                developer {
+                    id = 'lyw'
+                    name = 'luyw'
+                    email = '648422720@qq.com'
+                    url = 'https://github.com/luyw520/commlib'
+                }
+            }
 
 //            issueManagement {
 //                system = 'Github'
