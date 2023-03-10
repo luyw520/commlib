@@ -18,5 +18,7 @@ fun safeRun(block:(()->Unit)){
         block()
     }catch (e:Exception){
         e.printStackTrace()
+    }finally {
+
     }
 }
