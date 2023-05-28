@@ -123,6 +123,7 @@ dependencies {
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11"
     api 'com.google.android:flexbox:1.0.0'
     api ("io.github.molihuan:pathselector:1.1.14")
+    api 'com.gyf.immersionbar:immersionbar:3.0.0'
 
     //util
     api 'com.blankj:utilcodex:1.30.6'
