@@ -1,4 +1,4 @@
-package com.lu.commons.ext
+package com.lu.library.ext
 
 import androidx.recyclerview.widget.*
 import com.blankj.utilcode.util.LogUtils

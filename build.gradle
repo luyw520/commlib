@@ -127,4 +127,7 @@ dependencies {
     //util
     api 'com.blankj:utilcodex:1.30.6'
     api "com.google.code.gson:gson:${gson}"
+
+    // 沉浸式框架：https://github.com/gyf-dev/ImmersionBar
+    api 'com.gyf.immersionbar:immersionbar:3.0.0'
 }
