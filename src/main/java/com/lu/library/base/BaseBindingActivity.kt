@@ -3,6 +3,7 @@ package com.lu.library.base
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.gyf.immersionbar.ImmersionBar
 
 abstract class BaseBindingActivity<VB: ViewDataBinding>:BaseActivity() {
     protected  lateinit var  binding :VB
@@ -11,6 +12,7 @@ abstract class BaseBindingActivity<VB: ViewDataBinding>:BaseActivity() {
         binding = DataBindingUtil.setContentView(this,getLayoutId())
 //        setContentView(binding.root)
         binding.lifecycleOwner = this
+        ImmersionBar.setFitsSystemWindows(this)
         initData()
 
     }

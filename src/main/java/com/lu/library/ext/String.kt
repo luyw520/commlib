@@ -1,4 +1,4 @@
-package com.lu.commons.ext
+package com.lu.library.ext
 
 import com.alibaba.android.arouter.launcher.ARouter
 
